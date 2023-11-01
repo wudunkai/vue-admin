@@ -16,8 +16,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   console.log(to, from)
   if (to.path === '/login') return next()
-  const zldToken = sessionStorage.getItem('zldToken')
-  if (zldToken) {
+  const userInfo = localStorage.getItem('userInfo')
+  const token = userInfo && JSON.parse(userInfo).token
+  if (token) {
     next()
   } else {
     next('/login')

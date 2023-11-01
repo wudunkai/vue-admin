@@ -1,9 +1,12 @@
 export interface IGetParams {
-  apiKey: string
+  lot_number: string
+  captcha_output: string
+  pass_token: string
+  gen_time: string
 }
-export interface IGetRes {
-  area: string
-  areaCode: string
-  areaid: string
-  dayList: any[]
+export interface LoginBody {
+  lot_number: string
+  captcha_output: string
+  pass_token: string
+  gen_time: string
 }

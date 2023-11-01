@@ -12,9 +12,7 @@ app.use(cors());
 //使用body-parser中间件
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-AppRoutes.forEach((route) =>
-  router[route.method](`/api${route.path}`, route.action)
-);
+AppRoutes.forEach((route) => router[route.method](route.path, route.action));
 
 app.use(router);
 // 3. 开启服务器并监听端口

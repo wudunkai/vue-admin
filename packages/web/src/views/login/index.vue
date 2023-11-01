@@ -68,10 +68,14 @@
 
 <script lang="ts" setup>
 // import waves from "@directives/waves";
-import { userLogin } from '@/api/login'
+import { getLogin } from '@/api/login'
+import { useAppStore } from '@/stores/userInfo'
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 // const vWaves = waves;
+const app = useAppStore()
+const router = useRouter()
 const { VITE_GLOB_WEB_NAME, VITE_GLOB_WEB_TITLE, VITE_CAPTCHA_ID } = import.meta.env
 interface FormState {
   username: string
@@ -84,10 +88,9 @@ const formState = reactive<FormState>({
   remember: false
 })
 const loading = ref<boolean>(false)
-const onFinish = () => {
+const onFinish = async () => {
   window.gt.showBox()
 }
-import axios from 'axios'
 window.initGeetest4(
   {
     captchaId: VITE_CAPTCHA_ID,
@@ -101,8 +104,12 @@ window.initGeetest4(
       .onSuccess(async () => {
         loading.value = true
         const result = gt.getValidate()
-        let res = await userLogin(result)
-        console.log(res)
+        const data = await getLogin(result)
+        if (data.success) {
+          app.token = 'success'
+        }
+        loading.value = false
+        router.push('/')
       })
       .onError(() => {
         window.gt.reset()
