@@ -1,0 +1,83 @@
+$modes: (light: (bgColor: #fff,
+    infoColor: #121212),
+  dark: (bgColor:#121212,
+    infoColor: #fff));
+
+$curMode: light;
+
+@mixin useTheme() {
+
+  @each $key,
+  $value in $modes {
+    $curMode: $key !global;
+
+    html[data-dark='#{$key}'] & {
+      @content;
+    }
+
+  }
+}
+
+@function getModeVar($key) {
+  $modeMap: map-get($modes, $curMode);
+  @return map-get($modeMap, $key);
+}
+
+html {
+  font-size: 12px;
+
+  body {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    transition: background-color 0.3s,
+      color 0.3s;
+
+    #app {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+body {
+  @include useTheme {
+    background-color: getModeVar('bgColor');
+    color: getModeVar('infoColor');
+  }
+}
+
+// 色弱模式
+html.color-weak {
+  filter: grayscale(80%);
+}
+
+// 灰色模式
+html.gray-mode {
+  filter: grayscale(100%);
+}
+
+// 动画
+.-enter-x {
+  z-index: 9;
+  opacity: 0;
+  animation: enter-x-animation 0.4s ease-in-out 0.3s;
+  animation-fill-mode: forwards;
+  animation-delay: 0.1s;
+}
+
+.-enter-left-x {
+  transform: translateX(-50px);
+}
+
+.-enter-right-x {
+  transform: translateX(50px);
+}
+
+@keyframes enter-x-animation {
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

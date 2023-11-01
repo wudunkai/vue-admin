@@ -1,0 +1,10 @@
+{
+  "name": "server",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "build": "tsc",
+    "dev": "nodemon --legacy-watch"
+  }
+}
