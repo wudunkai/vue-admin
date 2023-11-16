@@ -68,7 +68,7 @@
 
 <script lang="ts" setup>
 // import waves from "@directives/waves";
-import { getLogin } from '@/api/login'
+import { useLogin } from '@/api/login'
 import { useAppStore } from '@/stores/userInfo'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -104,12 +104,12 @@ window.initGeetest4(
       .onSuccess(async () => {
         loading.value = true
         const result = gt.getValidate()
-        const data = await getLogin(result)
+        const data: any = await useLogin(result)
         if (data.success) {
           app.token = 'success'
+          router.push('/')
         }
         loading.value = false
-        router.push('/')
       })
       .onError(() => {
         window.gt.reset()

@@ -4,7 +4,16 @@ const history = createWebHistory()
 const routes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index.vue')
+    name: 'Login',
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      title: '登录'
+    }
+  },
+  {
+    path: '/',
+    name: 'Layouts',
+    component: () => import('@/layouts/index.vue')
   }
 ]
 const router = createRouter({
