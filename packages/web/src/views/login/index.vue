@@ -101,10 +101,10 @@ window.initGeetest4(
     gt.onReady(() => {
       window.gt = gt
     })
-      .onSuccess(async () => {
+      .onSuccess(() => {
         loading.value = true
         const result = gt.getValidate()
-        const data: any = await useLogin(result)
+        const { data } = useLogin(result)
         if (data.success) {
           app.token = 'success'
           router.push('/')

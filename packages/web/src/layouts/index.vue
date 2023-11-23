@@ -2,7 +2,13 @@
   <div>
     <projectConfiguration />
     <a-button type="primary" @click="showModal">Open Modal</a-button>
-    <a-modal ref="modalRef" v-model:open="open" :wrap-style="{ overflow: 'hidden' }" @ok="handleOk">
+    <a-modal
+      ref="modalRef"
+      style="padding: 0"
+      v-model:open="open"
+      :wrap-style="{ overflow: 'hidden' }"
+      @ok="handleOk"
+    >
       <p>Some contents...</p>
       <p>Some contents...</p>
       <p>Some contents...</p>
@@ -40,14 +46,12 @@ const preTransformY = ref(0)
 const dragRect = ref({ left: 0, right: 0, top: 0, bottom: 0 })
 watch([x, y], () => {
   if (!startedDrag.value) {
-    startX.value = x.value - 24
-    startY.value = y.value - 20
+    startX.value = x.value
+    startY.value = y.value
     const bodyRect = document.body.getBoundingClientRect()
     const titleRect = modalTitleRef.value.getBoundingClientRect()
-    console.log(titleRect)
-
-    dragRect.value.right = bodyRect.width - titleRect.width - 48
-    dragRect.value.bottom = bodyRect.height - titleRect.height - 192
+    dragRect.value.right = bodyRect.width - titleRect.width
+    dragRect.value.bottom = bodyRect.height - titleRect.height
     preTransformX.value = transformX.value
     preTransformY.value = transformY.value
   }

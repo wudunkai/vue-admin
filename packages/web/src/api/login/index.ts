@@ -1,14 +1,12 @@
-import request from '@/service'
-import { useRequest } from '@/hooks'
+import { userAlova } from '@/api/index'
+import { useRequest } from 'alova'
 import type { LoginBody } from './type'
-export const getLogin = (data: LoginBody) => {
-  return request<LoginBody>({
-    url: '/user/login',
-    method: 'post',
-    data
-  })
-}
-
 export const useLogin = (data: LoginBody) => {
-  return useRequest<LoginBody>(getLogin, data)
+  return useRequest(
+    userAlova.Post('/user/login', data, {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    })
+  )
 }
