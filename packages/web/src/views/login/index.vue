@@ -91,6 +91,7 @@ const loading = ref<boolean>(false)
 const onFinish = async () => {
   window.gt.showBox()
 }
+
 window.initGeetest4(
   {
     captchaId: VITE_CAPTCHA_ID,
@@ -104,12 +105,14 @@ window.initGeetest4(
       .onSuccess(() => {
         loading.value = true
         const result = gt.getValidate()
-        const { data } = useLogin(result)
-        if (data.success) {
-          app.token = 'success'
-          router.push('/')
-        }
-        loading.value = false
+        const { data, onSuccess } = useLogin(result)
+        onSuccess(() => {
+          if (data.value.success) {
+            app.token = 'success'
+            router.push('/')
+          }
+          loading.value = false
+        })
       })
       .onError(() => {
         window.gt.reset()

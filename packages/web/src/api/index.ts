@@ -5,7 +5,7 @@ import { axiosRequestAdapter } from '@alova/adapter-axios'
 
 // user alova instance
 export const userAlova = createAlova({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: import.meta.env.VITE_GLOB_API_URL,
   statesHook: VueHook,
   requestAdapter: GlobalFetch(),
   timeout: 2 * 60 * 1000,

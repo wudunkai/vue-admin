@@ -51,16 +51,8 @@ export default ({ mode }: never) => {
       hmr: true,
       port: 80, // 设置服务启动端口号
       open: false, // 设置服务启动时是否自动打开浏览器
-      cors: true, // 允许跨域
+      cors: true // 允许跨域
       // https: true, // 设置代理，根据我们项目实际情况配置
-      proxy: {
-        '/api': {
-          target: 'http://127.0.0.1:8000',
-          changeOrigin: true,
-          secure: false,
-          rewrite: (path) => path.replace(/^\/api/, '/')
-        }
-      }
     },
     base: base,
     build: {
