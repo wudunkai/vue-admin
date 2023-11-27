@@ -51,8 +51,24 @@ export default ({ mode }: never) => {
       hmr: true,
       port: 80, // 设置服务启动端口号
       open: false, // 设置服务启动时是否自动打开浏览器
-      cors: true // 允许跨域
+      cors: true, // 允许跨域
       // https: true, // 设置代理，根据我们项目实际情况配置
+      proxy: {
+        '/basic-api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/basic-api`), '')
+          // only https
+          // secure: false
+        },
+        '/upload': {
+          target: 'http://localhost:3300/upload',
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(new RegExp(`^/upload`), '')
+        }
+      }
     },
     base: base,
     build: {

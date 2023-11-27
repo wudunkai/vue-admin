@@ -68,7 +68,7 @@
 
 <script lang="ts" setup>
 // import waves from "@directives/waves";
-import { useLogin } from '@/api/login'
+import { useLogin, getUserDetail } from '@/api/login'
 import { useAppStore } from '@/stores/userInfo'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -87,6 +87,7 @@ const formState = reactive<FormState>({
   password: '',
   remember: false
 })
+getUserDetail(1)
 const loading = ref<boolean>(false)
 const onFinish = async () => {
   window.gt.showBox()

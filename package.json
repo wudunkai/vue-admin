@@ -6,7 +6,7 @@
   "scripts": {
     "dev:web": "cd packages/web & pnpm dev",
     "lint:web": "cd packages/web & pnpm lint",
-    "dev:server": "cd packages/server & pnpm dev",
+    "dev:server": "cd packages/nest_server & pnpm start:debug",
     "build:web": "cd packages/web & pnpm build"
   },
   "keywords": [],
@@ -14,8 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "@alova/adapter-axios": "^1.2.1",
+    "@nestjs/swagger": "^7.1.16",
     "alova": "^2.13.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
     "pinia": "^2.1.7",
+    "swagger-ui-express": "^5.0.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },

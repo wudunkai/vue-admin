@@ -14,7 +14,14 @@ export const userAlova = createAlova({
       'Content-Type': 'application/json;charset=UTF-8'
     }
   },
-  responded: (response) => response.json()
+  responded: (response) => {
+    if (response.status === 500) {
+      const error: any = new Error(response.statusText)
+      error.name = response.status
+      throw error
+    }
+    return response.json()
+  }
 })
 
 // // order alova instance
