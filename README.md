@@ -1,6 +1,6 @@
 ## 简介
 
-Admin 是一个参考[Vue Vben Admin](./http://doc.vvbin.cn/) 的中后台模版。
+Admin 是一个参考[Vue Vben Admin](http://doc.vvbin.cn/) 的中后台模版。
 
 ## 特性
 
