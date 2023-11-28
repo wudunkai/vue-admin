@@ -78,6 +78,10 @@ export class UserService {
         });
     });
   }
+  getUserPhoneCode() {
+    const randomNumber = Math.floor(Math.random() * 900000) + 100000;
+    return randomNumber;
+  }
   getUserList(): UserItem[] {
     return this.userList;
   }

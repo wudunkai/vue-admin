@@ -11,9 +11,15 @@ importers:
       '@alova/adapter-axios':
         specifier: ^1.2.1
         version: 1.2.1
+      '@alova/scene-vue':
+        specifier: ^1.2.1
+        version: 1.2.1
       '@nestjs/swagger':
         specifier: ^7.1.16
         version: 7.1.16(@nestjs/common@10.2.10)(@nestjs/core@10.2.10)(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)
+      '@types/crypto-js':
+        specifier: ^4.2.1
+        version: 4.2.1
       alova:
         specifier: ^2.13.2
         version: 2.13.2
@@ -23,6 +29,9 @@ importers:
       class-validator:
         specifier: ^0.14.0
         version: 0.14.0
+      crypto-js:
+        specifier: ^4.2.0
+        version: 4.2.0
       pinia:
         specifier: ^2.1.7
         version: 2.1.7(typescript@5.2.2)(vue@3.3.7)
@@ -258,6 +267,10 @@ packages:
 
   /@alova/adapter-axios@1.2.1:
     resolution: {integrity: sha512-I4EHLl6ipClhxipDBP8/gZnI8AYPZW0b+2YItnRW1y7lIO9SH3cKE0JvTQJZHv6zj/M8ghrdnzJFPjqDeeFAvg==}
+    dev: false
+
+  /@alova/scene-vue@1.2.1:
+    resolution: {integrity: sha512-YW9RCz99hhqCdOOWEDvr7Blw5HKugTBpgIVnvUWi0aDfmbccbUD0shXq2A+VtsS8V0BLWRNsSGnoAcZAIIL1DQ==}
     dev: false
 
   /@ampproject/remapping@2.2.1:
@@ -1723,6 +1736,10 @@ packages:
     dependencies:
       '@types/node': 18.18.7
     dev: true
+
+  /@types/crypto-js@4.2.1:
+    resolution: {integrity: sha512-FSPGd9+OcSok3RsM0UZ/9fcvMOXJ1ENE/ZbLfOPlBWj7BgXtEAM8VYfTtT760GiLbQIMoVozwVuisjvsVwqYWw==}
+    dev: false
 
   /@types/eslint-scope@3.7.7:
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -3342,6 +3359,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    dev: false
 
   /crypto@1.0.1:
     resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}

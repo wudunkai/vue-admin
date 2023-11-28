@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAppStore } from "@/stores/themeColor";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons-vue";
-const app = useAppStore();
+import { useAppStore } from '@/stores/themeColor'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons-vue'
+const app = useAppStore()
 </script>
 
 <template>
@@ -53,7 +53,9 @@ const app = useAppStore();
     z-index: 1;
     width: 18px;
     height: 18px;
-    transition: transform 0.5s, background-color 0.5s;
+    transition:
+      transform 0.5s,
+      background-color 0.5s;
     border-radius: 50%;
     background-color: #fff;
     will-change: transform;
@@ -68,7 +70,7 @@ const app = useAppStore();
     vertical-align: -0.15em;
   }
 }
-html[data-dark="dark"] {
+html[data-dark='dark'] {
   // 主题按钮样式
   .theme-color {
     border-color: #c4bcbc;

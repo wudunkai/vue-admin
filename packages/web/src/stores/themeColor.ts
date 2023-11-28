@@ -7,7 +7,7 @@ import { theme } from 'ant-design-vue'
 export const useAppStore = defineStore({
   id: 'themeColor',
   state: () => ({
-    themeName: '#1f4bad', // 主题颜色
+    themeName: '#409eff', // 主题颜色
     darkMode: 'light', // 主题模式
     grayMode: false, // 灰色模式
     colorWeak: false // 色弱模式

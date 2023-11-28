@@ -1,26 +1,20 @@
 <script setup lang="ts">
-import { useAppStore } from "@/stores/themeColor";
-import { h, ref } from "vue";
-import { SettingOutlined } from "@ant-design/icons-vue";
-const app = useAppStore();
-const open = ref<boolean>(false);
+import { useAppStore } from '@/stores/themeColor'
+import { SettingOutlined } from '@ant-design/icons-vue'
+const app = useAppStore()
+const open = ref<boolean>(false)
 const showDrawer = () => {
-  open.value = true;
-};
+  open.value = true
+}
 const interfaceDisplayList = {
-  grayMode: "灰色模式",
-  colorWeak: "色弱模式",
-};
+  grayMode: '灰色模式',
+  colorWeak: '色弱模式'
+}
 </script>
 
 <template>
   <a-tooltip title="项目配置">
-    <a-button
-      @click="showDrawer"
-      type="primary"
-      shape="circle"
-      :icon="h(SettingOutlined)"
-    />
+    <a-button @click="showDrawer" type="primary" shape="circle" :icon="h(SettingOutlined)" />
   </a-tooltip>
   <a-drawer
     v-model:open="open"
@@ -36,11 +30,7 @@ const interfaceDisplayList = {
       <ul class="interface-display">
         <li v-for="(item, index) in interfaceDisplayList" :key="index">
           <span>{{ item }}</span>
-          <a-switch
-            v-model:checked="app[index]"
-            checked-children="开"
-            un-checked-children="关"
-          />
+          <a-switch v-model:checked="app[index]" checked-children="开" un-checked-children="关" />
         </li>
       </ul>
     </div>

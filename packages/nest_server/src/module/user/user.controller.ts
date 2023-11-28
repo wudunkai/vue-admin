@@ -43,6 +43,31 @@ export class UserController {
       res.status(404).json(ERROR_RES('User was not found'));
     }
   }
+  @Post('getUserPhoneCode')
+  @ApiOperation({
+    summary: '发送短信',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '成功返回200',
+    schema: {
+      type: 'object',
+      example: {
+        data: 123456,
+        msg: 'success',
+        code: 200,
+      },
+    },
+  })
+  getUserPhoneCode(@Body() phoneCodeData, @Res() res: Response) {
+    const targetUser = this.userService.getUserPhoneCode();
+    if (targetUser) {
+      res.status(200).json(SUCCESS_RES(targetUser));
+    } else {
+      res.status(404).json(ERROR_RES('User was not found'));
+    }
+  }
+
   @Get('getUserDetail/:id')
   @ApiOperation({
     summary: '获取用户详情',
@@ -75,6 +100,7 @@ export class UserController {
       res.status(404).json(ERROR_RES('User was not found'));
     }
   }
+
   @Post('addUser')
   @ApiOperation({
     summary: '获取用户列表',

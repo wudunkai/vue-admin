@@ -1,5 +1,6 @@
 import { userAlova } from '@/api/index'
 import { useRequest } from 'alova'
+import { useCaptcha } from '@alova/scene-vue'
 import type { LoginBody } from './type'
 export const useLogin = (data: LoginBody) => {
   return useRequest(
@@ -10,6 +11,12 @@ export const useLogin = (data: LoginBody) => {
     })
   )
 }
-export const getUserDetail = (data: string) => {
-  return useRequest(userAlova.Get(`/user/getUserDetail/${data}`))
+export const getUserPhoneCode = (data: string) => {
+  return useCaptcha(() =>
+    userAlova.Post('/user/getUserPhoneCode', data, {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8'
+      }
+    })
+  )
 }
