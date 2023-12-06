@@ -1,7 +1,7 @@
-$modes: (light: (bgColor: #fff,
+$modes: (light: (bgColor: #f0f0f0,
     infoColor: #121212),
   dark: (bgColor:#121212,
-    infoColor: #fff));
+    infoColor: #f0f0f0));
 
 $curMode: light;
 
@@ -36,7 +36,7 @@ html {
 
     #app {
       width: 100%;
-      height: 100%;
+      height: 100vh;
     }
   }
 }
@@ -46,6 +46,10 @@ body {
     background-color: getModeVar('bgColor');
     color: getModeVar('infoColor');
   }
+}
+
+html[data-dark=light] .ant-layout-header {
+  background-color: #fff;
 }
 
 // 色弱模式

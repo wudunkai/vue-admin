@@ -9,7 +9,6 @@ const app = useAppStore()
     <router-view v-slot="{ Component }">
       <component :is="Component" />
     </router-view>
-    <a-back-top />
   </a-config-provider>
 </template>
 

@@ -1,130 +1,3 @@
-<template>
-  <div class="w-login">
-    <themeColor class="-enter-x -enter-right-x" />
-    <div class="container">
-      <div class="container-left">
-        <div class="app-logo-content -enter-x -enter-left-x">
-          <img src="../../assets/images/logo.webp" class="app-logo" alt="Logo" />
-          <div class="app-logo-title">{{ VITE_GLOB_WEB_NAME }}</div>
-        </div>
-        <div class="my-auto -enter-x -enter-left-x">
-          <img alt="Admin" src="../../assets/svg/login-box-bg.svg" />
-          <div class="text size">
-            {{ VITE_GLOB_WEB_TITLE }}
-          </div>
-          <div class="text">— “{{ VITE_GLOB_WEB_NAME }}”业务中台 —</div>
-        </div>
-      </div>
-      <div class="container-right">
-        <div class="container-right-content">
-          <a-form
-            :model="formState.formPassData.data"
-            class="login-form -enter-x -enter-right-x"
-            size="large"
-            @finish="onFinish"
-            v-if="formState.loginType == 'formPassData'"
-          >
-            <a-form-item>
-              <div class="login-title">登录</div>
-            </a-form-item>
-            <FormItems v-bind="formState.formPassData" />
-            <a-form-item>
-              <div class="login-form-check-forgot">
-                <a-form-item name="remember" no-style>
-                  <a-checkbox v-model:checked="formState.formPassData.data.remember"
-                    >记住我</a-checkbox
-                  >
-                </a-form-item>
-                <a-button type="link" @click="changeLogin('formForgotData')">忘记密码？</a-button>
-              </div>
-            </a-form-item>
-            <a-form-item>
-              <a-button
-                type="primary"
-                :loading="loading"
-                html-type="submit"
-                class="login-form-button"
-                id="captcha"
-              >
-                登录
-              </a-button>
-            </a-form-item>
-            <a-form-item>
-              <div class="login-form-check">
-                <a-button
-                  v-for="item in formState.type"
-                  :key="item.name"
-                  @click="changeLogin(item.type)"
-                  size="medium"
-                  >{{ item.name }}</a-button
-                >
-              </div>
-            </a-form-item>
-          </a-form>
-          <a-form
-            :model="formState.formPhoneData.data"
-            class="login-form -enter-x -enter-right-x"
-            size="large"
-            @finish="onFinish"
-            ref="formPhoneRef"
-            v-else-if="formState.loginType == 'formPhoneData'"
-          >
-            <a-form-item>
-              <div class="login-title">手机登录</div>
-            </a-form-item>
-            <FormItems v-bind="formState.formPhoneData" @send-code="sendCode" />
-            <a-form-item>
-              <a-button
-                type="primary"
-                :loading="loading"
-                html-type="submit"
-                class="login-form-button"
-                id="captcha"
-              >
-                登录
-              </a-button>
-            </a-form-item>
-            <a-form-item>
-              <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
-                返回
-              </a-button></a-form-item
-            >
-          </a-form>
-          <a-form
-            :model="formState.formForgotData.data"
-            class="forgot-form -enter-x -enter-right-x"
-            size="large"
-            @finish="onFinish"
-            ref="formForgotRef"
-            v-else-if="formState.loginType == 'formForgotData'"
-          >
-            <a-form-item>
-              <div class="forgot-title">重置密码</div>
-            </a-form-item>
-            <FormItems v-bind="formState.formForgotData" @send-code="sendCode" />
-            <a-form-item>
-              <a-button
-                type="primary"
-                :loading="loading"
-                html-type="submit"
-                class="forgot-form-button"
-                id="captcha"
-              >
-                登录
-              </a-button>
-            </a-form-item>
-            <a-form-item>
-              <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
-                返回
-              </a-button></a-form-item
-            >
-          </a-form>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { useLogin, getUserPhoneCode } from '@/api/login'
 import { useAppStore } from '@/stores/userInfo'
@@ -312,6 +185,133 @@ window.initGeetest4(
   }
 )
 </script>
+
+<template>
+  <div class="w-login">
+    <themeColor class="-enter-x -enter-right-x" />
+    <div class="container">
+      <div class="container-left">
+        <div class="app-logo-content -enter-x -enter-left-x">
+          <img src="../../assets/images/logo.webp" class="app-logo" alt="Logo" />
+          <div class="app-logo-title">{{ VITE_GLOB_WEB_NAME }}</div>
+        </div>
+        <div class="my-auto -enter-x -enter-left-x">
+          <img alt="Admin" src="../../assets/svg/login-box-bg.svg" />
+          <div class="text size">
+            {{ VITE_GLOB_WEB_TITLE }}
+          </div>
+          <div class="text">— “{{ VITE_GLOB_WEB_NAME }}”业务中台 —</div>
+        </div>
+      </div>
+      <div class="container-right">
+        <div class="container-right-content">
+          <a-form
+            :model="formState.formPassData.data"
+            class="login-form -enter-x -enter-right-x"
+            size="large"
+            @finish="onFinish"
+            v-if="formState.loginType == 'formPassData'"
+          >
+            <a-form-item>
+              <div class="login-title">登录</div>
+            </a-form-item>
+            <FormItems v-bind="formState.formPassData" />
+            <a-form-item>
+              <div class="login-form-check-forgot">
+                <a-form-item name="remember" no-style>
+                  <a-checkbox v-model:checked="formState.formPassData.data.remember"
+                    >记住我</a-checkbox
+                  >
+                </a-form-item>
+                <a-button type="link" @click="changeLogin('formForgotData')">忘记密码？</a-button>
+              </div>
+            </a-form-item>
+            <a-form-item>
+              <a-button
+                type="primary"
+                :loading="loading"
+                html-type="submit"
+                class="login-form-button"
+                id="captcha"
+              >
+                登录
+              </a-button>
+            </a-form-item>
+            <a-form-item>
+              <div class="login-form-check">
+                <a-button
+                  v-for="item in formState.type"
+                  :key="item.name"
+                  @click="changeLogin(item.type)"
+                  size="medium"
+                  >{{ item.name }}</a-button
+                >
+              </div>
+            </a-form-item>
+          </a-form>
+          <a-form
+            :model="formState.formPhoneData.data"
+            class="login-form -enter-x -enter-right-x"
+            size="large"
+            @finish="onFinish"
+            ref="formPhoneRef"
+            v-else-if="formState.loginType == 'formPhoneData'"
+          >
+            <a-form-item>
+              <div class="login-title">手机登录</div>
+            </a-form-item>
+            <FormItems v-bind="formState.formPhoneData" @send-code="sendCode" />
+            <a-form-item>
+              <a-button
+                type="primary"
+                :loading="loading"
+                html-type="submit"
+                class="login-form-button"
+                id="captcha"
+              >
+                登录
+              </a-button>
+            </a-form-item>
+            <a-form-item>
+              <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
+                返回
+              </a-button></a-form-item
+            >
+          </a-form>
+          <a-form
+            :model="formState.formForgotData.data"
+            class="forgot-form -enter-x -enter-right-x"
+            size="large"
+            @finish="onFinish"
+            ref="formForgotRef"
+            v-else-if="formState.loginType == 'formForgotData'"
+          >
+            <a-form-item>
+              <div class="forgot-title">重置密码</div>
+            </a-form-item>
+            <FormItems v-bind="formState.formForgotData" @send-code="sendCode" />
+            <a-form-item>
+              <a-button
+                type="primary"
+                :loading="loading"
+                html-type="submit"
+                class="forgot-form-button"
+                id="captcha"
+              >
+                登录
+              </a-button>
+            </a-form-item>
+            <a-form-item>
+              <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
+                返回
+              </a-button></a-form-item
+            >
+          </a-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .w-login {
