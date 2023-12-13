@@ -4,7 +4,7 @@ import { theme } from 'ant-design-vue'
 /**
  * themeColor 配置 开启持久化
  */
-export const useAppStore = defineStore({
+export const useThemeColorStore = defineStore({
   id: 'themeColor',
   state: () => ({
     themeName: '#409eff', // 主题颜色

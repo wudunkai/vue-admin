@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { h } from 'vue'
-import { useAppStore } from '@/stores/themeColor'
+import { useThemeColorStore } from '@/stores/themeColor'
 import { SettingOutlined } from '@ant-design/icons-vue'
-const app = useAppStore()
+const app = useThemeColorStore()
 const open = ref<boolean>(false)
 const showDrawer = () => {
   open.value = true

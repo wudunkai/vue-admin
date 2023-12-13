@@ -1,10 +1,12 @@
+import type { App } from 'vue'
+import type { Router, RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
+import { createRouterGuards } from './router-guards'
 
-const history = createWebHistory()
-const routes = [
+export const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: () => import('@/views/login/index.vue'),
     meta: {
       title: '登录'
@@ -12,26 +14,22 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Layouts',
+    name: 'layouts',
     component: () => import('@/layouts/index.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('@/views/404/index.vue')
   }
 ]
-const router = createRouter({
-  history,
+const router: Router = createRouter({
+  history: createWebHistory(),
   routes
 })
 
-// 全局前置导航钩子
-router.beforeEach((to, from, next) => {
-  console.log(to, from)
-  if (to.path === '/login') return next()
-  const userInfo = localStorage.getItem('userInfo')
-  const token = userInfo && JSON.parse(userInfo).token
-  if (token) {
-    next()
-  } else {
-    next('/login')
-  }
-})
+export function setupRouter(app: App) {
+  createRouterGuards(router)
+  app.use(router)
+}
 
 export default router

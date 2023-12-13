@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useAppStore } from '@/stores/themeColor'
+import { useThemeColorStore } from '@/stores/themeColor'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons-vue'
-const app = useAppStore()
+const app = useThemeColorStore()
 </script>
 
 <template>
