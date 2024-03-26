@@ -1,19 +1,15 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
+import { getTreeToArr } from '@/utils/methods'
+import mock from '@/json/mock'
 /**
  * userInfo 配置 开启持久化
  */
 export const useAppStore = defineStore({
   id: 'userInfo',
   state: () => ({
-    token: '', // token
-    routes: [
-      {
-        path: '/home',
-        name: 'home',
-        component: 'home'
-      }
-    ]
+    token: '123', // token
+    routes: mock.router
   }),
   actions: {
     async addRoute(routes: Array<any>) {
@@ -65,7 +61,12 @@ const loadView = (view: any) => {
 }
 //为权限路由异步添加组件
 const filterAsyncRouter = (routeList: any) => {
-  return routeList.filter((route: any) => {
+  const newRouteList = getTreeToArr(routeList)
+  return newRouteList.filter((route: any) => {
+    const { title } = route
+    route.meta = {
+      title
+    }
     if (route.component) {
       // 如果不是布局组件就只能是页面的引用了
       // 利用懒加载函数将实际页面赋值给它

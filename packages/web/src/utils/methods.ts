@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js'
+import _ from 'lodash'
 const { VITE_CAPTCHA_ID } = import.meta.env
 
 const encrypt = (data: string) => {
@@ -21,4 +22,25 @@ const isEmpty = (data: any) => {
   return false
 }
 
-export { isEmpty, encrypt }
+// 扁平化数组
+const getTreeToArr = (data: any[], childName?: string) => {
+  const result: any[] = []
+  const childNames = childName || 'children'
+  data.forEach((item) => {
+    const loop = (data: { [x: string]: any }) => {
+      const res = _.cloneDeep(data)
+      delete res[childNames]
+      result.push(res)
+      const child = data[childNames]
+      if (child) {
+        for (let i = 0; i < child.length; i++) {
+          loop(child[i])
+        }
+      }
+    }
+    loop(item)
+  })
+  return result
+}
+
+export { isEmpty, encrypt, getTreeToArr }

@@ -15,11 +15,13 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'layouts',
-    component: () => import('@/layouts/index.vue')
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    component: () => import('@/views/404/index.vue')
+    component: () => import('@/layouts/index.vue'),
+    children: [
+      {
+        path: '/:pathMatch(.*)*',
+        component: () => import('@/views/404/index.vue')
+      }
+    ]
   }
 ]
 const router: Router = createRouter({

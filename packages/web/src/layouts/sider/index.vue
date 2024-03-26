@@ -1,87 +1,31 @@
 <script lang="ts" setup>
 import { useLayoutStore } from '@/stores/layouts'
-import { MailOutlined, AppstoreOutlined } from '@ant-design/icons-vue'
+import mock from '@/json/mock'
 const app = useLayoutStore()
+const router = useRouter()
 const { VITE_GLOB_WEB_NAME } = import.meta.env
-watch(
-  () => app.openKeys,
-  (_val, oldVal) => {
-    app.preOpenKeys = oldVal
-  }
-)
 const onOpenChange = (openKeys: string[]) => {
-  const latestOpenKey = openKeys.find((key) => app.openKeys.indexOf(key) === -1)
-  if (app.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-    app.openKeys = openKeys
-  } else {
-    app.openKeys = latestOpenKey ? [latestOpenKey] : []
-  }
+  let keys = openKeys || app.selectedKeys[0]
+  // if (keys.length === 1) {
+  //   app.openKeys = keys
+  // } else {
+  //   app.openKeys = keys.length[('2', '2-1')]
+  // }
+  // const latestOpenKey = openKeys.find((key) => app.openKeys.indexOf(key) === -1)
+  // if (app.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+  //   app.openKeys = openKeys
+  // } else {
+  //   app.openKeys = latestOpenKey ? [latestOpenKey] : []
+  // }
 }
-const items = reactive([
-  {
-    key: 'sub1',
-    icon: () => h(MailOutlined),
-    label: 'Navigation One',
-    title: 'Navigation One',
-    children: [
-      {
-        key: '1',
-        label: 'Option 5',
-        title: 'Option 5'
-      },
-      {
-        key: '6',
-        label: 'Option 6',
-        title: 'Option 6'
-      },
-      {
-        key: '7',
-        label: 'Option 7',
-        title: 'Option 7'
-      },
-      {
-        key: '8',
-        label: 'Option 8',
-        title: 'Option 8'
-      }
-    ]
-  },
-  {
-    key: 'sub2',
-    icon: () => h(AppstoreOutlined),
-    label: 'Navigation Two',
-    title: 'Navigation Two',
-    children: [
-      {
-        key: '9',
-        label: 'Option 9',
-        title: 'Option 9'
-      },
-      {
-        key: '10',
-        label: 'Option 10',
-        title: 'Option 10'
-      },
-      {
-        key: 'sub3',
-        label: 'Submenu',
-        title: 'Submenu',
-        children: [
-          {
-            key: '11',
-            label: 'Option 11',
-            title: 'Option 11'
-          },
-          {
-            key: '12',
-            label: 'Option 12',
-            title: 'Option 12'
-          }
-        ]
-      }
-    ]
-  }
-])
+watchEffect(() => {
+  onOpenChange()
+})
+const openRouter = ({ item }) => {
+  onOpenChange(item.originItemValue.key)
+  router.push(item.path)
+}
+const items = reactive(mock.router)
 </script>
 
 <template>
@@ -101,9 +45,8 @@ const items = reactive([
       mode="inline"
       theme="dark"
       :open-keys="app.openKeys"
-      :inline-collapsed="app.collapsed"
       :items="items"
-      @openChange="onOpenChange"
+      @click="openRouter"
     ></a-menu>
   </a-layout-sider>
 </template>

@@ -1,7 +1,13 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
-  "include": ["types/**/*.ts", "src/**/*", "src/**/*.vue"],
+  "include": [
+    "types/**/*.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "electron-main/**/*.ts",
+    "electron-preload/**/*.ts"
+  ],
   "compilerOptions": {
     "composite": true,
     "target": "ESNext",

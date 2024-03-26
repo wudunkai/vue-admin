@@ -1,52 +1,39 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-interface Route {
-  path: string
-  breadcrumbName: string
-  children?: Array<{
-    path: string
-    breadcrumbName: string
-  }>
-}
-const routes = ref<Route[]>([
-  {
-    path: 'home',
-    breadcrumbName: 'home'
+import mock from '@/json/mock'
+import { useLayoutStore } from '@/stores/layouts'
+const app = useLayoutStore()
+const route = useRoute()
+const router = useRouter()
+const checkRouteName = ref(route.meta.title)
+watch(
+  () => route,
+  () => {
+    const { title } = route.meta
+    checkRouteName.value = title
   },
-  // {
-  //   path: 'first',
-  //   breadcrumbName: 'first',
-  //   children: [
-  //     {
-  //       path: '/general',
-  //       breadcrumbName: 'General'
-  //     },
-  //     {
-  //       path: '/layout',
-  //       breadcrumbName: 'Layout'
-  //     },
-  //     {
-  //       path: '/navigation',
-  //       breadcrumbName: 'Navigation'
-  //     }
-  //   ]
-  // },
-  {
-    path: 'second',
-    breadcrumbName: 'second'
-  }
-])
+  { deep: true }
+)
+const routes = ref([])
+const changeRouter = (item) => {
+  app.selectedKeys = [item.key]
+  router.push(item.path)
+}
 </script>
 
 <template>
-  <a-breadcrumb :routes="routes">
-    <template #itemRender="{ route, paths }">
-      <span v-if="routes.indexOf(route) === routes.length - 1">
-        {{ route.breadcrumbName }}
-      </span>
-      <router-link v-else :to="`/${paths.join('/')}`">
-        {{ route.breadcrumbName }}
-      </router-link>
-    </template>
+  <a-breadcrumb>
+    <a-breadcrumb-item v-for="item in routes" :key="item.path">
+      {{ item.title }}
+      <template #overlay v-if="item.children">
+        <a-menu>
+          <a-menu-item v-for="child in item.children" :key="child.path">
+            <a @click="changeRouter(child)" href="javascript:;">{{ child.title }}</a>
+          </a-menu-item>
+        </a-menu>
+      </template>
+    </a-breadcrumb-item>
+    <a-breadcrumb-item>
+      {{ checkRouteName || 404 }}
+    </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
