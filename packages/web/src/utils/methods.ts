@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash'
 const { VITE_CAPTCHA_ID } = import.meta.env
 
 const encrypt = (data: string) => {
@@ -28,7 +28,7 @@ const getTreeToArr = (data: any[], childName?: string) => {
   const childNames = childName || 'children'
   data.forEach((item) => {
     const loop = (data: { [x: string]: any }) => {
-      const res = _.cloneDeep(data)
+      const res = cloneDeep(data)
       delete res[childNames]
       result.push(res)
       const child = data[childNames]
@@ -43,4 +43,9 @@ const getTreeToArr = (data: any[], childName?: string) => {
   return result
 }
 
-export { isEmpty, encrypt, getTreeToArr }
+const isUrl = (val: string) => {
+  const reg = /^(https?|mailto|tel|file):/
+  return reg.test(val)
+}
+
+export { isEmpty, encrypt, getTreeToArr, isUrl }

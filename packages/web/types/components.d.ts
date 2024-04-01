@@ -9,9 +9,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     Breadcrumb: typeof import('./../src/components/Breadcrumb/index.vue')['default']
     FormItems: typeof import('./../src/components/FormItems/index.vue')['default']
-    ProjectConfiguration: typeof import('./../src/components/projectConfiguration/index.vue')['default']
+    ProjectConfiguration: typeof import('./../src/components/ProjectConfiguration/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ThemeColor: typeof import('./../src/components/themeColor/index.vue')['default']
+    ThemeColor: typeof import('./../src/components/ThemeColor/index.vue')['default']
   }
 }

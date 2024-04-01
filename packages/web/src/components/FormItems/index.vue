@@ -2,7 +2,7 @@
 const props = defineProps({
   // 表单列表
   formLabel: {
-    type: Array,
+    type: Array as PropType<any>,
     default: () => []
   },
   data: {

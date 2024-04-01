@@ -3,6 +3,9 @@ const electron = require("electron");
 const path = require("path");
 const createWindow = () => {
   const win = new electron.BrowserWindow({
+    width: 1e3,
+    height: 800,
+    frame: false,
     webPreferences: {
       contextIsolation: false,
       // 是否开启隔离上下文
@@ -20,6 +23,19 @@ const createWindow = () => {
     win.loadURL(url);
     win.webContents.openDevTools();
   }
+  electron.ipcMain.on("window-min", function() {
+    win.minimize();
+  });
+  electron.ipcMain.on("window-max", function() {
+    if (win.isMaximized()) {
+      win.restore();
+    } else {
+      win.maximize();
+    }
+  });
+  electron.ipcMain.on("window-close", function() {
+    win.close();
+  });
 };
 electron.app.whenReady().then(() => {
   createWindow();

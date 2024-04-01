@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useLogin, getUserPhoneCode } from '@/api/login'
-import { useAppStore } from '@/stores/userInfo'
 import { validatorMobile } from '@/utils/validator'
 import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
@@ -9,7 +8,7 @@ const formForgotRef = ref<FormInstance>()
 const app = useAppStore()
 const router = useRouter()
 const { VITE_GLOB_WEB_NAME, VITE_GLOB_WEB_TITLE, VITE_CAPTCHA_ID } = import.meta.env
-const formState = reactive({
+const formState: any = reactive({
   loginType: 'formPassData',
   type: [{ name: '手机登录', type: 'formPhoneData' }],
   formPassData: {
@@ -128,7 +127,7 @@ const changeLogin = (type: string) => {
 }
 const sendCode = () => {
   const loginType = formState.loginType
-  let formRef
+  let formRef: any
   switch (loginType) {
     case 'formPhoneData':
       formRef = formPhoneRef.value
@@ -138,10 +137,10 @@ const sendCode = () => {
       break
   }
   formRef
-    .validateFields(['phone'], (err, values) => {
+    .validateFields(['phone'], (err: any) => {
       if (err) return
     })
-    .then((data) => {
+    .then(() => {
       const {
         // 发送状态
         loading: sending,
@@ -149,7 +148,9 @@ const sendCode = () => {
         send: sendCodes
       } = getUserPhoneCode({ type: loginType })
       sendCodes()
-      const code = formState[formState.loginType].formLabel.find((item) => item.field == 'code')
+      const code = formState[loginType].formLabel.find(
+        (item: { field: string }) => item.field == 'code'
+      )
       code.suffix.loading = loading
       code.suffix.countdown = countdown
     })
@@ -170,7 +171,7 @@ window.initGeetest4(
       .onSuccess(() => {
         loading.value = true
         const result = gt.getValidate()
-        const { data, onSuccess } = useLogin(result)
+        const { data, onSuccess }: any = useLogin(result)
         onSuccess(() => {
           if (data.value.code == 200) {
             app.token = 'success'

@@ -1,8 +1,11 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 
 const createWindow = () => {
   const win = new BrowserWindow({
+    width: 1000,
+    height: 800,
+    frame: false,
     webPreferences: {
       contextIsolation: false, // 是否开启隔离上下文
       nodeIntegration: true, // 渲染进程使用Node API
@@ -19,7 +22,25 @@ const createWindow = () => {
     win.loadURL(url)
     win.webContents.openDevTools()
   }
+  // 接收最小化命令
+  ipcMain.on('window-min', function () {
+    win.minimize()
+  })
+  //接收最大化命令
+  ipcMain.on('window-max', function () {
+    if (win.isMaximized()) {
+      win.restore()
+    } else {
+      win.maximize()
+    }
+  })
+  //接收关闭命令
+  ipcMain.on('window-close', function () {
+    win.close()
+  })
 }
+
+//接收最小化命令
 
 app.whenReady().then(() => {
   createWindow() // 创建窗口

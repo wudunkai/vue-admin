@@ -1,6 +1,4 @@
-import { defineStore } from 'pinia'
 import { theme } from 'ant-design-vue'
-
 /**
  * themeColor 配置 开启持久化
  */

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { h } from 'vue'
-import { useThemeColorStore } from '@/stores/themeColor'
 import { SettingOutlined } from '@ant-design/icons-vue'
 const app = useThemeColorStore()
 const open = ref<boolean>(false)
@@ -14,14 +12,14 @@ const interfaceDisplayList = {
 </script>
 
 <template>
-  <a-tooltip title="项目配置">
-    <a-button @click="showDrawer" type="primary" shape="circle" :icon="h(SettingOutlined)" />
-  </a-tooltip>
+  <SettingOutlined title="项目配置" @click="showDrawer" />
   <a-drawer
     v-model:open="open"
     class="project-configuration"
     root-class-name="root-class-name"
     title="项目配置"
+    :closable="false"
+    :footer-style="{ textAlign: 'right' }"
     placement="right"
   >
     <div class="project-configuration-content">
@@ -35,11 +33,15 @@ const interfaceDisplayList = {
         </li>
       </ul>
     </div>
+    <template #footer>
+      <a-button style="margin-right: 8px" @click="open = false">关闭</a-button>
+    </template>
   </a-drawer>
 </template>
 
 <style lang="scss">
 .project-configuration {
+  @include appRegion(no-drag);
   .project-configuration-content {
     .interface-display {
       li {

@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import LayoutHeader from './header/index.vue'
-import LayoutSideBar from './sider/index.vue'
-import LayoutContent from './content/index.vue'
+import LayoutHeader from './components/header/index.vue'
+import LayoutMultiTab from './components/multi-tab/index.vue'
+import LayoutMenu from './components/menu/index.vue'
+import LayoutContent from './components/content/index.vue'
 </script>
 
 <template>
   <a-layout id="layouts">
-    <LayoutSideBar />
+    <LayoutMenu />
     <a-layout class="content">
       <LayoutHeader />
+      <LayoutMultiTab />
       <LayoutContent />
     </a-layout>
   </a-layout>
@@ -25,7 +27,7 @@ import LayoutContent from './content/index.vue'
     }
     .ant-layout-content {
       margin: 0 1rem 1.5rem 1rem;
-      padding: 1.5rem;
+      border-radius: 0.5rem;
     }
   }
 }

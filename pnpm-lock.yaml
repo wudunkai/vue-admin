@@ -132,6 +132,9 @@ importers:
       jsdom:
         specifier: ^22.1.0
         version: 22.1.0
+      mitt:
+        specifier: ^3.0.1
+        version: 3.0.1
       mysql:
         specifier: ^2.18.1
         version: 2.18.1
@@ -6756,6 +6759,10 @@ packages:
     dependencies:
       minipass: 3.3.6
       yallist: 4.0.0
+    dev: true
+
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
     dev: true
 
   /mkdirp@0.5.6:

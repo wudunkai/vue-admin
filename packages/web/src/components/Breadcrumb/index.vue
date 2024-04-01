@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import mock from '@/json/mock'
-import { useLayoutStore } from '@/stores/layouts'
+import { RouteLocationRaw } from 'vue-router'
 const app = useLayoutStore()
 const route = useRoute()
 const router = useRouter()
@@ -14,8 +13,9 @@ watch(
   { deep: true }
 )
 const routes = ref([])
-const changeRouter = (item) => {
-  app.selectedKeys = [item.key]
+const changeRouter = (item: { key: any; path: RouteLocationRaw }) => {
+  const selectedKeys: any = [item.key]
+  app.selectedKeys = selectedKeys
   router.push(item.path)
 }
 </script>
