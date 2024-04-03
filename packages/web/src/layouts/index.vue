@@ -26,7 +26,7 @@ import LayoutContent from './components/content/index.vue'
       padding: 0;
     }
     .ant-layout-content {
-      margin: 0 1rem 1.5rem 1rem;
+      margin: 0.5rem;
       border-radius: 0.5rem;
     }
   }

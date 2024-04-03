@@ -146,7 +146,6 @@ onUnmounted(() => {
 
 <style lang="scss">
 .pro-ant-multi-tab {
-  border-top: 1px solid #eee;
-  background: #fff;
+  border-top: 1px solid #0505050f;
 }
 </style>

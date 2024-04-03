@@ -4,7 +4,6 @@ const app = useLayoutStore()
 const { layoutSetting } = storeToRefs(app)
 const multiTabStore = useMultiTab()
 const { cacheList } = storeToRefs(multiTabStore)
-console.log(cacheList)
 </script>
 
 <template>

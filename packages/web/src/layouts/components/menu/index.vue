@@ -1,15 +1,28 @@
 <script lang="ts" setup>
 import SubMenu from './sub-menu.vue'
 const app = useAppStore()
+const router = useRouter()
 const layout = useLayoutStore()
 const { VITE_GLOB_WEB_NAME } = import.meta.env
-const onOpenChange = (openKeys: string[]) => {
-  const latestOpenKey: string = openKeys.find((key) => layout.openKeys.indexOf(key) === -1) || ''
-  if (layout.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-    layout.openKeys = openKeys
-  } else {
-    layout.openKeys = latestOpenKey ? [latestOpenKey] : []
-  }
+watch(
+  () => app.menuData,
+  (val) => {
+    layout.toMapMenuData(val, layout.menuDataMap)
+    layout.changeMenu()
+  },
+  { immediate: true, flush: 'post' }
+)
+watch(router.currentRoute, (route) => {
+  // 路由发生变化
+  if (route.path === layout.selectedKeys[0]) return
+  layout.changeMenu()
+})
+const handleOpenKeys = (val: string[]) => {
+  if (layout.layoutSetting.accordionMode) layout.handleAccordionMode(val)
+  else layout.openKeys = val
+}
+const handleMenuSelect = (val: string[]) => {
+  console.log(val)
 }
 </script>
 
@@ -28,11 +41,13 @@ const onOpenChange = (openKeys: string[]) => {
     <div class="menu scrollbar">
       <a-menu
         v-model:selectedKeys="layout.selectedKeys"
+        @update:open-keys="handleOpenKeys"
+        @select="handleMenuSelect"
         mode="inline"
         theme="dark"
-        :open-keys="layout.openKeys"
-        @openChange="onOpenChange"
+        :open-keys="layout.collapsed ? [] : layout.openKeys"
       >
+        <!-- @update:selected-keys="handleSelectedKeys" -->
         <template v-for="item in app.menuData">
           <template v-if="!item.hideInMenu">
             <SubMenu :key="item.path" :item="item" />

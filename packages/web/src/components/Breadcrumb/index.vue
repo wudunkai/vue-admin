@@ -1,28 +1,39 @@
 <script lang="ts" setup>
 import { RouteLocationRaw } from 'vue-router'
 const app = useLayoutStore()
+const layout = useLayoutStore()
 const route = useRoute()
 const router = useRouter()
-const checkRouteName = ref(route.meta.title)
+const getCurrentItem = () => {
+  const key: any = route.meta?.originPath ?? route.path
+  if (key && layout.menuDataMap.has(key)) return layout.menuDataMap.get(key)
+  return {} as any
+}
+const currentItem = shallowRef(getCurrentItem())
+onBeforeMount(() => {
+  currentItem.value = getCurrentItem()
+})
+let timer: ReturnType<typeof setTimeout> | undefined
 watch(
-  () => route,
+  () => route.path,
   () => {
-    const { title } = route.meta
-    checkRouteName.value = title
-  },
-  { deep: true }
+    if (timer) {
+      clearTimeout(timer)
+      timer = undefined
+    }
+    timer = setTimeout(() => {
+      currentItem.value = getCurrentItem()
+    }, 300)
+  }
 )
-const routes = ref([])
 const changeRouter = (item: { key: any; path: RouteLocationRaw }) => {
-  const selectedKeys: any = [item.key]
-  app.selectedKeys = selectedKeys
   router.push(item.path)
 }
 </script>
 
 <template>
   <a-breadcrumb>
-    <a-breadcrumb-item v-for="item in routes" :key="item.path">
+    <a-breadcrumb-item v-for="item in currentItem.matched" :key="item.path">
       {{ item.title }}
       <template #overlay v-if="item.children">
         <a-menu>
@@ -33,7 +44,7 @@ const changeRouter = (item: { key: any; path: RouteLocationRaw }) => {
       </template>
     </a-breadcrumb-item>
     <a-breadcrumb-item>
-      {{ checkRouteName || 404 }}
+      {{ currentItem.title }}
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>

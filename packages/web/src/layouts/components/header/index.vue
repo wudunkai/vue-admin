@@ -6,7 +6,7 @@ import Icon, {
   CloseOutlined,
   MenuUnfoldOutlined
 } from '@ant-design/icons-vue'
-import { ipcRenderer } from 'electron'
+// import { ipcRenderer } from 'electron'
 const app = useLayoutStore()
 const isMax = ref(true)
 </script>
@@ -15,13 +15,13 @@ const isMax = ref(true)
   <a-layout-header class="header">
     <div class="header-title">
       <ProjectConfiguration />
-      <MinusOutlined title="最小化" @click="ipcRenderer.send('window-min')" />
-      <BorderOutlined
+      <!-- <MinusOutlined class="icon-btn" title="最小化" @click="ipcRenderer.send('window-min')" />
+      <BorderOutlined class="icon-btn"
         title="最大化"
         v-if="isMax"
         @click="(isMax = !isMax), ipcRenderer.send('window-max')"
       />
-      <icon title="向下还原" v-else @click="(isMax = !isMax), ipcRenderer.send('window-max')">
+      <icon class="icon-btn" title="向下还原" v-else @click="(isMax = !isMax), ipcRenderer.send('window-max')">
         <template #component>
           <svg
             t="1711503849681"
@@ -41,7 +41,7 @@ const isMax = ref(true)
           </svg>
         </template>
       </icon>
-      <CloseOutlined class="close" @click="ipcRenderer.send('window-close')" title="关闭" />
+      <CloseOutlined  class="icon-btn close" @click="ipcRenderer.send('window-close')" title="关闭" /> -->
     </div>
     <div class="header-content">
       <div class="header-right">
@@ -71,9 +71,6 @@ const isMax = ref(true)
       span {
         cursor: pointer;
         padding: 0.5rem 0.8rem;
-        &:hover {
-          background: #eee;
-        }
       }
       .close {
         &:hover {

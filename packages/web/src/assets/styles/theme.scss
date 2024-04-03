@@ -49,8 +49,27 @@ body {
   }
 }
 
-html[data-dark=light] .ant-layout-header {
-  background-color: #fff;
+html[data-dark=light] {
+
+  .ant-layout-header,
+  .pro-ant-multi-tab {
+    background-color: #fff;
+  }
+
+  .icon-btn {
+    &:hover {
+      background: #eaeaea;
+    }
+  }
+}
+
+html[data-dark=dark] {
+
+  .icon-btn {
+    &:hover {
+      background: #404040;
+    }
+  }
 }
 
 // 色弱模式

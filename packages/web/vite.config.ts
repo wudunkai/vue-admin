@@ -18,16 +18,16 @@ export default ({ mode }: never) => {
     envDir,
     plugins: [
       vue(),
-      electron([
-        {
-          entry: 'electron-main/index.ts' // 主进程文件
-        },
-        {
-          entry: 'electron-preload/preload.ts'
-        }
-      ]),
-      electronRenderer(),
-      polyfillExports(),
+      // electron([
+      //   {
+      //     entry: 'electron-main/index.ts' // 主进程文件
+      //   },
+      //   {
+      //     entry: 'electron-preload/preload.ts'
+      //   }
+      // ]),
+      // electronRenderer(),
+      // polyfillExports(),
       AutoImport({
         imports: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
         // 可以选择auto-import.d.ts生成的位置，使用ts建议设置为'types/auto-import.d.ts'

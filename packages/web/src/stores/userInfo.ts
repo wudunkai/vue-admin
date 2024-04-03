@@ -521,7 +521,6 @@ export const useAppStore = defineStore({
         menuData: treeMenuData,
         routerData: currentRoute
       })
-      console.log(currentRoute)
       router.addRoute(currentRoute)
     }
   },

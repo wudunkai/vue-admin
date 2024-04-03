@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SettingOutlined } from '@ant-design/icons-vue'
-const app = useThemeColorStore()
+const theme = useThemeColorStore()
+const layout = useLayoutStore()
 const open = ref<boolean>(false)
 const showDrawer = () => {
   open.value = true
@@ -9,10 +10,16 @@ const interfaceDisplayList = {
   grayMode: '灰色模式',
   colorWeak: '色弱模式'
 }
+const contentAreaList = {
+  animation: '动画'
+}
+const navigationModeList = {
+  accordionMode: '菜单手风琴模式'
+}
 </script>
 
 <template>
-  <SettingOutlined title="项目配置" @click="showDrawer" />
+  <SettingOutlined class="icon-btn" title="项目配置" @click="showDrawer" />
   <a-drawer
     v-model:open="open"
     class="project-configuration"
@@ -29,7 +36,18 @@ const interfaceDisplayList = {
       <ul class="interface-display">
         <li v-for="(item, index) in interfaceDisplayList" :key="index">
           <span>{{ item }}</span>
-          <a-switch v-model:checked="app[index]" checked-children="开" un-checked-children="关" />
+          <a-switch v-model:checked="theme[index]" checked-children="开" un-checked-children="关" />
+        </li>
+      </ul>
+      <a-divider>导航模式</a-divider>
+      <ul class="interface-display">
+        <li v-for="(item, index) in navigationModeList" :key="index">
+          <span>{{ item }}</span>
+          <a-switch
+            v-model:checked="layout.layoutSetting[index]"
+            checked-children="开"
+            un-checked-children="关"
+          />
         </li>
       </ul>
     </div>
