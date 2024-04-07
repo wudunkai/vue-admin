@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import { RouteLocationRaw } from 'vue-router'
-const app = useLayoutStore()
+import { isUrl } from '@/utils/methods'
 const layout = useLayoutStore()
 const route = useRoute()
 const router = useRouter()
@@ -26,8 +25,10 @@ watch(
     }, 300)
   }
 )
-const changeRouter = (item: { key: any; path: RouteLocationRaw }) => {
-  router.push(item.path)
+const changeRouter = (item: { path: any }) => {
+  const path = item.path
+  if (!isUrl(path)) router.push(path)
+  else window.open(path, '_blank')
 }
 </script>
 

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import SubMenu from './sub-menu.vue'
+import { isUrl } from '@/utils/methods'
 const app = useAppStore()
 const router = useRouter()
 const layout = useLayoutStore()
@@ -21,8 +22,12 @@ const handleOpenKeys = (val: string[]) => {
   if (layout.layoutSetting.accordionMode) layout.handleAccordionMode(val)
   else layout.openKeys = val
 }
-const handleMenuSelect = (val: string[]) => {
-  console.log(val)
+const handleSelectedKeys = (val: string[]) => {
+  // 如果点击的是外部的菜单，那么我们就不需要设置成为激活的状态
+  const path = val[0]
+  console.log(!isUrl(path), val)
+
+  if (!isUrl(path)) layout.selectedKeys = val
 }
 </script>
 
@@ -40,14 +45,13 @@ const handleMenuSelect = (val: string[]) => {
     </div>
     <div class="menu scrollbar">
       <a-menu
-        v-model:selectedKeys="layout.selectedKeys"
+        :selected-keys="layout.selectedKeys"
         @update:open-keys="handleOpenKeys"
-        @select="handleMenuSelect"
+        @update:selected-keys="handleSelectedKeys"
         mode="inline"
         theme="dark"
         :open-keys="layout.collapsed ? [] : layout.openKeys"
       >
-        <!-- @update:selected-keys="handleSelectedKeys" -->
         <template v-for="item in app.menuData">
           <template v-if="!item.hideInMenu">
             <SubMenu :key="item.path" :item="item" />
