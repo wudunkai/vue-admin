@@ -60,8 +60,7 @@ onUnmounted(() => {
       <template #tab>
         <a-dropdown :trigger="['contextmenu']">
           <div>
-            <!-- {{ item.locale ? $t(item.locale) : item.title }} -->
-            {{ item.title }}
+            {{ item.locale ? $t(item.locale) : item.title }}
             <a-button
               v-if="activeKey === item.fullPath"
               class="ant-tabs-tab-remove"
@@ -89,30 +88,25 @@ onUnmounted(() => {
                 key="closeCurrent"
                 :disabled="isCurrentDisabled || activeKey !== item.fullPath"
               >
-                关闭当前
-                <!-- {{ $t('app.multiTab.closeCurrent') }} -->
+                {{ $t('app.multiTab.closeCurrent') }}
               </a-menu-item>
               <a-menu-item
                 key="closeLeft"
                 :disabled="isCurrentDisabled || leftDisabled(item.fullPath)"
               >
-                关闭左侧
-                <!-- {{ $t('app.multiTab.closeLeft') }} -->
+                {{ $t('app.multiTab.closeLeft') }}
               </a-menu-item>
               <a-menu-item
                 key="closeRight"
                 :disabled="isCurrentDisabled || rightDisabled(item.fullPath)"
               >
-                关闭右侧
-                <!-- {{ $t('app.multiTab.closeRight') }} -->
+                {{ $t('app.multiTab.closeRight') }}
               </a-menu-item>
               <a-menu-item key="closeOther" :disabled="isCurrentDisabled || otherDisabled">
-                关闭其他
-                <!-- {{ $t('app.multiTab.closeOther') }} -->
+                {{ $t('app.multiTab.closeOther') }}
               </a-menu-item>
               <a-menu-item key="refresh" :disabled="!isCurrentDisabled">
-                刷新当前
-                <!-- {{ $t('app.multiTab.refresh') }} -->
+                {{ $t('app.multiTab.refresh') }}
               </a-menu-item>
             </a-menu>
           </template>
@@ -129,12 +123,10 @@ onUnmounted(() => {
           <template #overlay>
             <a-menu @click="handleSwitch($event, activeKey)">
               <a-menu-item key="closeOther" :disabled="isCurrentDisabled || otherDisabled">
-                关闭其他
-                <!-- {{ $t('app.multiTab.closeOther') }} -->
+                {{ $t('app.multiTab.closeOther') }}
               </a-menu-item>
               <a-menu-item key="refresh">
-                刷新当前
-                <!-- {{ $t('app.multiTab.refresh') }} -->
+                {{ $t('app.multiTab.refresh') }}
               </a-menu-item>
             </a-menu>
           </template>

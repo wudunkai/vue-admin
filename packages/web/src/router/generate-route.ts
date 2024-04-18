@@ -5,16 +5,23 @@ import { basicRouteMap, getRouterModule } from './router-modules'
 import type { MenuData, MenuDataItem } from '@/layouts/basic-layout/typing'
 import dynamicRoutes from '@/router/dynamic-routes'
 import { ROOT_ROUTE_REDIRECT_PATH } from '@/router/constant'
+import { i18n } from '@/locales'
 
 let cache_key = 1
 
 const getCacheKey = () => `Cache_Key_${cache_key++}`
 
+function renderTitle(route: RouteRecordRaw) {
+  const { title, locale } = route.meta || {}
+  if (!title) return ''
+  return locale ? (i18n.global as any).t(locale) : title
+}
+
 function formatMenu(route: RouteRecordRaw, path?: string) {
   return {
     id: route.meta?.id,
     parentId: route.meta?.parentId,
-    title: route.meta?.title,
+    title: () => renderTitle(route),
     icon: route.meta?.icon || '',
     path: path ?? route.path,
     hideInMenu: route.meta?.hideInMenu || false,
@@ -88,6 +95,7 @@ export function generateTreeRoutes(menus: MenuData) {
     routeDataMap.set(menuItem.id, route)
     menuDataMap.set(menuItem.id, menu)
   }
+
   const routeData: RouteRecordRaw[] = []
   const menuData: MenuData = []
 

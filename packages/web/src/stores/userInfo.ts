@@ -485,7 +485,7 @@ export interface UserInfo {
 export const useAppStore = defineStore({
   id: 'userInfo',
   state: () => ({
-    token: '123', // token
+    token: '', // token
     roles: [],
     userInfo: shallowRef<UserInfo>(),
     menuData: shallowRef<MenuData>([]),

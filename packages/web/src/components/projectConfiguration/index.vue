@@ -2,57 +2,73 @@
 import { SettingOutlined } from '@ant-design/icons-vue'
 const theme = useThemeColorStore()
 const layout = useLayoutStore()
+const { setLocale, t } = useI18nLocale()
 const open = ref<boolean>(false)
 const showDrawer = () => {
   open.value = true
 }
-const interfaceDisplayList = {
-  grayMode: '灰色模式',
-  colorWeak: '色弱模式'
+const interfaceDisplayList = [
+  { title: 'app.setting.grayMode', field: 'grayMode', type: 'switch', show: true },
+  { title: 'app.setting.colorWeakMode', field: 'colorWeakMode', type: 'switch', show: true },
+  {
+    title: 'app.setting.lang',
+    field: 'locale',
+    type: 'select',
+    show: true,
+    size: 'small',
+    options: [
+      { label: '简体中文', value: 'zh-CN' },
+      { label: 'English', value: 'en-US' }
+    ]
+  }
+]
+const navigationModeList = [
+  {
+    title: 'app.setting.content-width.accordionMode',
+    field: 'accordionMode',
+    type: 'switch',
+    show: true
+  }
+]
+const changeSelect = (key: string) => {
+  setLocale(key)
 }
-const contentAreaList = {
-  animation: '动画'
-}
-const navigationModeList = {
-  accordionMode: '菜单手风琴模式'
-}
+const formItemLayout = computed(() => {
+  return {
+    labelAlign: 'left',
+    labelCol: { span: 16 },
+    wrapperCol: { span: 8 }
+  }
+})
 </script>
 
 <template>
-  <SettingOutlined class="icon-btn" title="项目配置" @click="showDrawer" />
+  <SettingOutlined class="icon-btn" :title="t('app.setting.project')" @click="showDrawer" />
   <a-drawer
     v-model:open="open"
     class="project-configuration"
     root-class-name="root-class-name"
-    title="项目配置"
+    :title="t('app.setting.project')"
     :closable="false"
     :footer-style="{ textAlign: 'right' }"
     placement="right"
   >
     <div class="project-configuration-content">
-      <a-divider>主题</a-divider>
+      <a-divider>{{ t('app.setting.topic') }}</a-divider>
       <themeColor />
-      <a-divider>界面显示</a-divider>
-      <ul class="interface-display">
-        <li v-for="(item, index) in interfaceDisplayList" :key="index">
-          <span>{{ item }}</span>
-          <a-switch v-model:checked="theme[index]" checked-children="开" un-checked-children="关" />
-        </li>
-      </ul>
-      <a-divider>导航模式</a-divider>
-      <ul class="interface-display">
-        <li v-for="(item, index) in navigationModeList" :key="index">
-          <span>{{ item }}</span>
-          <a-switch
-            v-model:checked="layout.layoutSetting[index]"
-            checked-children="开"
-            un-checked-children="关"
-          />
-        </li>
-      </ul>
+      <a-divider>{{ t('app.setting.interfaceDisplay') }}</a-divider>
+      <a-form class="form-setting" v-bind="formItemLayout">
+        <FormItems :formLabel="interfaceDisplayList" :data="theme" @change-select="changeSelect" />
+      </a-form>
+      <a-divider>{{ t('app.setting.navigationMode') }}</a-divider>
+      <a-form class="form-setting" v-bind="formItemLayout">
+        <FormItems :formLabel="navigationModeList" :data="layout" />
+      </a-form>
     </div>
     <template #footer>
-      <a-button style="margin-right: 8px" @click="open = false">关闭</a-button>
+      <a-button style="margin-right: 8px" @click="open = false">{{
+        t('app.common.close')
+      }}</a-button>
     </template>
   </a-drawer>
 </template>
@@ -60,15 +76,5 @@ const navigationModeList = {
 <style lang="scss">
 .project-configuration {
   @include appRegion(no-drag);
-  .project-configuration-content {
-    .interface-display {
-      li {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-  }
 }
 </style>

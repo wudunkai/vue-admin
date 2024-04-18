@@ -6,8 +6,15 @@ import AntD from 'ant-design-vue'
 import 'reset-css/reset.css'
 import 'ant-design-vue/dist/reset.css'
 import './router/router-guard'
-const app = createApp(App)
-// 挂载路由
-app.use(router).use(stores).use(AntD)
-// 路由准备就绪后挂载APP实例
-router.isReady().then(() => app.mount('#app'))
+import { setupI18n } from './locales'
+
+async function start() {
+  const app: App = createApp(App)
+  app.use(stores)
+  app.use(AntD)
+  await setupI18n(app)
+  app.use(router)
+  router.isReady().then(() => app.mount('#app'))
+  app.config.performance = true
+}
+start()

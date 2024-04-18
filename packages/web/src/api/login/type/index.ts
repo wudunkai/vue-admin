@@ -4,6 +4,6 @@ export interface LoginBody {
   pass_token: string
   gen_time: string
 }
-export interface UserPhoneCodeBody {
+export interface UserPhoneCaptchaBody {
   type: string
 }

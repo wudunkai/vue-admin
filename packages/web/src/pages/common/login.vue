@@ -1,34 +1,37 @@
 <script lang="ts" setup>
-import { useLogin, getUserPhoneCode } from '@/api/login'
-import { validatorMobile } from '@/utils/validator'
+import Icon from '@ant-design/icons-vue'
+import { useLogin, getUserPhoneCaptcha } from '@/api/login'
+import { validatorMobile, validator } from '@/utils/validator'
 import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
 const formPhoneRef = ref<FormInstance>()
 const formForgotRef = ref<FormInstance>()
 const app = useAppStore()
 const router = useRouter()
-const { VITE_GLOB_WEB_NAME, VITE_GLOB_WEB_TITLE, VITE_CAPTCHA_ID } = import.meta.env
+const { locale, setLocale, t } = useI18nLocale()
+function handleClick({ key }: any) {
+  setLocale(key)
+}
+const { VITE_GLOB_WEB_NAME, VITE_CAPTCHA_ID } = import.meta.env
 const formState: any = reactive({
   loginType: 'formPassData',
-  type: [{ name: '手机登录', type: 'formPhoneData' }],
+  type: [{ name: 'pages.login.phoneLogin.tab', type: 'formPhoneData' }],
   formPassData: {
     formLabel: [
       {
-        name: 'username',
         field: 'username',
-        rules: [{ required: true, message: '请输入您的账号！' }],
+        rules: [{ validator, messages: 'pages.login.username.required' }],
         prefix: UserOutlined,
-        placeholder: '账号',
+        placeholder: 'pages.login.username.placeholder',
         show: true,
         autofocus: true,
         type: 'text'
       },
       {
-        name: 'password',
         field: 'password',
-        rules: [{ required: true, message: '请输入您的密码！' }],
+        rules: [{ validator, messages: 'pages.login.password.required' }],
         prefix: LockOutlined,
-        placeholder: '密码',
+        placeholder: 'pages.login.password.placeholder',
         show: true,
         type: 'password'
       }
@@ -42,27 +45,22 @@ const formState: any = reactive({
   formPhoneData: {
     formLabel: [
       {
-        name: 'phone',
         field: 'phone',
-        rules: [
-          { required: true, message: '请输入您的手机号！' },
-          { validator: validatorMobile, trigger: 'change' }
-        ],
+        rules: [{ validator: validatorMobile, trigger: 'change' }],
         prefix: PhoneOutlined,
-        placeholder: '手机号',
+        placeholder: 'pages.login.phoneNumber.placeholder',
         show: true,
         autofocus: true,
         type: 'text'
       },
       {
-        name: 'code',
-        field: 'code',
-        rules: [{ required: true, message: '请输入验证码！' }],
+        field: 'captcha',
+        rules: [{ validator, messages: 'pages.login.captcha.required' }],
         prefix: LockOutlined,
-        placeholder: '验证码',
+        placeholder: 'pages.login.captcha.placeholder',
         show: true,
         suffix: {
-          type: 'code',
+          type: 'captcha',
           size: 'small',
           loading: false,
           countdown: ''
@@ -71,43 +69,37 @@ const formState: any = reactive({
     ],
     data: {
       phone: '13888888888',
-      code: '123456'
+      captcha: '123456'
     }
   },
   formForgotData: {
     formLabel: [
       {
-        name: 'username',
         field: 'username',
-        rules: [{ required: true, message: '请输入您的账号！' }],
+        rules: [{ validator, messages: 'pages.login.username.required' }],
         prefix: UserOutlined,
-        placeholder: '账号',
+        placeholder: 'pages.login.username.placeholder',
         show: true,
         autofocus: true,
         type: 'text'
       },
       {
-        name: 'phone',
         field: 'phone',
-        rules: [
-          { required: true, message: '请输入您的手机号！' },
-          { validator: validatorMobile, trigger: 'change' }
-        ],
+        rules: [{ validator: validatorMobile, trigger: 'change' }],
         prefix: PhoneOutlined,
-        placeholder: '手机号',
+        placeholder: 'pages.login.phoneNumber.placeholder',
         show: true,
         autofocus: true,
         type: 'text'
       },
       {
-        name: 'code',
-        field: 'code',
-        rules: [{ required: true, message: '请输入验证码！' }],
+        field: 'captcha',
+        rules: [{ validator, messages: 'pages.login.captcha.required' }],
         prefix: LockOutlined,
-        placeholder: '验证码',
+        placeholder: 'pages.login.captcha.placeholder',
         show: true,
         suffix: {
-          type: 'code',
+          type: 'captcha',
           size: 'small',
           loading: false,
           countdown: ''
@@ -117,7 +109,7 @@ const formState: any = reactive({
     data: {
       username: 'admin',
       phone: '13999999999',
-      code: '123456'
+      captcha: '123456'
     }
   }
 })
@@ -125,7 +117,7 @@ const loading = ref<boolean>(false)
 const changeLogin = (type: string) => {
   formState.loginType = type
 }
-const sendCode = () => {
+const sendCaptcha = () => {
   const loginType = formState.loginType
   let formRef: any
   switch (loginType) {
@@ -145,14 +137,14 @@ const sendCode = () => {
         // 发送状态
         loading: sending,
         countdown,
-        send: sendCodes
-      } = getUserPhoneCode({ type: loginType })
-      sendCodes()
-      const code = formState[loginType].formLabel.find(
-        (item: { field: string }) => item.field == 'code'
+        send: sendCaptchas
+      } = getUserPhoneCaptcha({ type: loginType })
+      sendCaptchas()
+      const captcha = formState[loginType].formLabel.find(
+        (item: { field: string }) => item.field == 'captcha'
       )
-      code.suffix.loading = loading
-      code.suffix.countdown = countdown
+      captcha.suffix.loading = loading
+      captcha.suffix.countdown = countdown
     })
 }
 const onFinish = async () => {
@@ -189,7 +181,32 @@ window.initGeetest4(
 
 <template>
   <div class="w-login">
-    <themeColor class="-enter-x -enter-right-x" />
+    <div class="-enter-x -enter-right-x login-top-setting">
+      <a-dropdown>
+        <icon class="icon-btn">
+          <template #component>
+            <CarbonLanguage />
+          </template>
+        </icon>
+        <template #overlay>
+          <a-menu :selected-keys="[locale]" @click="handleClick">
+            <a-menu-item key="zh-CN">
+              <template #icon>
+                <span> 🇨🇳 </span>
+              </template>
+              简体中文
+            </a-menu-item>
+            <a-menu-item key="en-US">
+              <template #icon>
+                <span> 🇺🇸 </span>
+              </template>
+              English
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+      <themeColor />
+    </div>
     <div class="container">
       <div class="container-left">
         <div class="app-logo-content -enter-x -enter-left-x">
@@ -198,10 +215,9 @@ window.initGeetest4(
         </div>
         <div class="my-auto -enter-x -enter-left-x">
           <img alt="Admin" src="../../assets/svg/login-box-bg.svg" />
-          <div class="text size">
-            {{ VITE_GLOB_WEB_TITLE }}
+          <div class="text">
+            {{ t('pages.layouts.userLayout.title') }}
           </div>
-          <div class="text">— “{{ VITE_GLOB_WEB_NAME }}”业务中台 —</div>
         </div>
       </div>
       <div class="container-right">
@@ -214,17 +230,19 @@ window.initGeetest4(
             v-if="formState.loginType == 'formPassData'"
           >
             <a-form-item>
-              <div class="login-title">登录</div>
+              <div class="login-title">{{ t('pages.login.accountLogin.tab') }}</div>
             </a-form-item>
             <FormItems v-bind="formState.formPassData" />
             <a-form-item>
               <div class="login-form-check-forgot">
                 <a-form-item name="remember" no-style>
-                  <a-checkbox v-model:checked="formState.formPassData.data.remember"
-                    >记住我</a-checkbox
-                  >
+                  <a-checkbox v-model:checked="formState.formPassData.data.remember">{{
+                    t('pages.login.rememberMe')
+                  }}</a-checkbox>
                 </a-form-item>
-                <a-button type="link" @click="changeLogin('formForgotData')">忘记密码？</a-button>
+                <a-button type="link" @click="changeLogin('formForgotData')">
+                  {{ t('pages.login.forgotPassword') }}</a-button
+                >
               </div>
             </a-form-item>
             <a-form-item>
@@ -235,7 +253,7 @@ window.initGeetest4(
                 class="login-form-button"
                 id="captcha"
               >
-                登录
+                {{ t('pages.login.submit') }}
               </a-button>
             </a-form-item>
             <a-form-item>
@@ -245,7 +263,7 @@ window.initGeetest4(
                   :key="item.name"
                   @click="changeLogin(item.type)"
                   size="medium"
-                  >{{ item.name }}</a-button
+                  >{{ t(item.name) }}</a-button
                 >
               </div>
             </a-form-item>
@@ -259,9 +277,9 @@ window.initGeetest4(
             v-else-if="formState.loginType == 'formPhoneData'"
           >
             <a-form-item>
-              <div class="login-title">手机登录</div>
+              <div class="login-title">{{ t('pages.login.phoneLogin.tab') }}</div>
             </a-form-item>
-            <FormItems v-bind="formState.formPhoneData" @send-code="sendCode" />
+            <FormItems v-bind="formState.formPhoneData" @send-captcha="sendCaptcha" />
             <a-form-item>
               <a-button
                 type="primary"
@@ -270,12 +288,12 @@ window.initGeetest4(
                 class="login-form-button"
                 id="captcha"
               >
-                登录
+                {{ t('pages.login.submit') }}
               </a-button>
             </a-form-item>
             <a-form-item>
               <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
-                返回
+                {{ t('pages.login.return') }}
               </a-button></a-form-item
             >
           </a-form>
@@ -288,9 +306,9 @@ window.initGeetest4(
             v-else-if="formState.loginType == 'formForgotData'"
           >
             <a-form-item>
-              <div class="forgot-title">重置密码</div>
+              <div class="forgot-title">{{ t('pages.reset.password.tab') }}</div>
             </a-form-item>
-            <FormItems v-bind="formState.formForgotData" @send-code="sendCode" />
+            <FormItems v-bind="formState.formForgotData" @send-captcha="sendCaptcha" />
             <a-form-item>
               <a-button
                 type="primary"
@@ -299,12 +317,12 @@ window.initGeetest4(
                 class="forgot-form-button"
                 id="captcha"
               >
-                登录
+                {{ t('pages.login.submit') }}
               </a-button>
             </a-form-item>
             <a-form-item>
               <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
-                返回
+                {{ t('pages.login.return') }}
               </a-button></a-form-item
             >
           </a-form>
@@ -319,10 +337,16 @@ window.initGeetest4(
   position: relative;
   width: 100%;
   min-height: 100%;
-  .theme-color {
+  .login-top-setting {
     top: 1rem;
     right: 1rem;
     position: absolute;
+    display: flex;
+    align-items: center;
+    .icon-btn {
+      margin-right: 0.5rem;
+      padding: 0.2rem;
+    }
   }
   .container {
     display: flex;
@@ -357,10 +381,8 @@ window.initGeetest4(
         .text {
           margin-top: 2rem;
           font-weight: 500;
+          line-height: 1.5rem;
           color: #fff;
-        }
-        .size {
-          font-size: 1.6rem;
         }
       }
     }

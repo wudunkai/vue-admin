@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { isFunction } from 'lodash'
+import type { VNodeChild } from 'vue'
 import { isUrl } from '@/utils/methods'
 const layout = useLayoutStore()
 const route = useRoute()
@@ -30,22 +32,26 @@ const changeRouter = (item: { path: any }) => {
   if (!isUrl(path)) router.push(path)
   else window.open(path, '_blank')
 }
+function renderTitle(title: VNodeChild | (() => VNodeChild)) {
+  if (isFunction(title)) return title()
+  return title
+}
 </script>
 
 <template>
   <a-breadcrumb>
     <a-breadcrumb-item v-for="item in currentItem.matched" :key="item.path">
-      {{ item.title }}
+      {{ renderTitle(item.title) }}
       <template #overlay v-if="item.children">
         <a-menu>
           <a-menu-item v-for="child in item.children" :key="child.path">
-            <a @click="changeRouter(child)" href="javascript:;">{{ child.title }}</a>
+            <a @click="changeRouter(child)" href="javascript:;">{{ renderTitle(child.title) }}</a>
           </a-menu-item>
         </a-menu>
       </template>
     </a-breadcrumb-item>
     <a-breadcrumb-item>
-      {{ currentItem.title }}
+      {{ renderTitle(currentItem.title) }}
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18nLocale()
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons-vue'
 const props = defineProps({
   // 表单列表
   formLabel: {
@@ -11,17 +13,30 @@ const props = defineProps({
   }
 })
 const formData = computed(() => props.data)
-const emit = defineEmits(['send-code'])
+const emit = defineEmits(['send-captcha', 'change-select'])
+const changeSelect = (value: string) => {
+  emit('change-select', value)
+}
+const getTextI18n = (text: string) => {
+  if (!text) return
+  return t(text)
+}
 </script>
 
 <template>
   <template v-for="item in formLabel" :key="item.field">
-    <a-form-item v-if="item.show" :validateFirst="true" :name="item.name" :rules="item.rules">
+    <a-form-item
+      v-if="item.show"
+      :validateFirst="true"
+      :label="getTextI18n(item.title)"
+      :name="item.field"
+      :rules="item.rules"
+    >
       <a-input-password
         v-if="item.type == 'password'"
         v-model:value="formData[item.field]"
         :disabled="item.disabled"
-        :placeholder="item.placeholder"
+        :placeholder="getTextI18n(item.placeholder)"
         :size="item.size"
         autocomplete="off"
       >
@@ -29,12 +44,38 @@ const emit = defineEmits(['send-code'])
           <component :is="item.prefix" />
         </template>
       </a-input-password>
+      <a-select
+        v-else-if="item.type == 'select'"
+        v-model:value="formData[item.field]"
+        :disabled="item.disabled"
+        :placeholder="getTextI18n(item.placeholder)"
+        :size="item.size"
+        @change="changeSelect"
+      >
+        <a-select-option
+          v-for="opt in item.options"
+          :key="opt.value"
+          :value="opt.value"
+          :disabled="opt.disabled"
+        >
+          {{ opt.label }}
+        </a-select-option>
+      </a-select>
+      <a-switch
+        v-else-if="item.type == 'switch'"
+        v-model:checked="formData[item.field]"
+        :disabled="item.disabled"
+        :size="item.size"
+      >
+        <template #checkedChildren><check-outlined /></template>
+        <template #unCheckedChildren><close-outlined /></template>
+      </a-switch>
       <a-input
         v-else
         v-model:value="formData[item.field]"
         :disabled="item.disabled"
         :autofocus="item.autofocus"
-        :placeholder="item.placeholder"
+        :placeholder="getTextI18n(item.placeholder)"
         :size="item.size"
         autocomplete="off"
       >
@@ -43,8 +84,8 @@ const emit = defineEmits(['send-code'])
         </template>
         <template #suffix v-if="item.suffix">
           <a-button
-            v-if="item.suffix.type == 'code'"
-            @click="emit('send-code')"
+            v-if="item.suffix.type == 'captcha'"
+            @click="emit('send-captcha')"
             :size="item.suffix.size"
             :loading="item.suffix.loading"
             :disabled="item.suffix.loading || item.suffix.countdown > 0"
@@ -52,10 +93,10 @@ const emit = defineEmits(['send-code'])
           >
             {{
               item.suffix.loading
-                ? '发送中...'
+                ? $t('pages.login.captcha.sending')
                 : item.suffix.countdown > 0
-                ? `${item.suffix.countdown}后可重发`
-                : '发送验证码'
+                ? `${item.suffix.countdown}${$t('pages.getCaptchaSecondText')}`
+                : $t('pages.login.phoneLogin.getVerificationCode')
             }}</a-button
           >
         </template>

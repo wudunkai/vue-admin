@@ -9,7 +9,7 @@ withDefaults(defineProps<{ item: MenuDataItem; link?: boolean }>(), {
   link: true
 })
 function renderTitle(title: VNodeChild | (() => VNodeChild)) {
-  // if (isFunction(title)) return title()
+  if (isFunction(title)) return title()
   return title
 }
 </script>
