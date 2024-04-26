@@ -7,8 +7,8 @@ export default {
   'app.setting.content-width.accordionMode': 'Menu Accordion Mode',
 
   'app.setting.interfaceDisplay': 'Interface Display',
-  'app.setting.colorWeakMode': 'Weak Mode',
-  'app.setting.grayMode': 'Gray Mode',
+  'app.setting.colorWeak': 'Weak Mode',
+  'app.setting.colorGray': 'Gray Mode',
   'app.setting.lang': 'Languages',
 
   'app.multiTab.closeCurrent': 'Close Current',

@@ -10,8 +10,8 @@ router.beforeEach(async (to, _, next) => {
   console.log(to)
   setRouteEmitter(to)
   // 获取
-  const userStore = useAppStore()
-  if (!userStore.token) {
+  const user = useUserStore()
+  if (!user.token) {
     //  如果token不存在就跳转到登录页面
     if (!allowList.includes(to.path) && !to.path.startsWith('/redirect')) {
       next({
@@ -23,10 +23,10 @@ router.beforeEach(async (to, _, next) => {
       return
     }
   } else {
-    if (!userStore.userInfo && !allowList.includes(to.path) && !to.path.startsWith('/redirect')) {
+    if (!user.userInfo && !allowList.includes(to.path) && !to.path.startsWith('/redirect')) {
       // 获取用户信息
-      await userStore.getUserInfo()
-      await userStore.generateDynamicRoutes()
+      await user.getUserInfo()
+      await user.generateDynamicRoutes()
       try {
         next({ ...to, replace: true })
         return

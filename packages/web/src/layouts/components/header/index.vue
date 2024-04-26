@@ -7,7 +7,7 @@ import Icon, {
   MenuUnfoldOutlined
 } from '@ant-design/icons-vue'
 // import { ipcRenderer } from 'electron'
-const app = useLayoutStore()
+const app = useAppStore()
 const isMax = ref(true)
 </script>
 
@@ -31,7 +31,7 @@ const isMax = ref(true)
     <div class="header-content">
       <div class="header-right">
         <a-button type="link" class="menu" @click="app.toggleCollapsed">
-          <MenuUnfoldOutlined v-if="app.collapsed" />
+          <MenuUnfoldOutlined v-if="app.layoutSetting.collapsed" />
           <MenuFoldOutlined v-else />
         </a-button>
         <Breadcrumb />

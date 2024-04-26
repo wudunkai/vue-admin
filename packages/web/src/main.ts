@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import stores from './stores'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import AntD from 'ant-design-vue'
 import 'reset-css/reset.css'
 import 'ant-design-vue/dist/reset.css'
@@ -10,6 +10,8 @@ import { setupI18n } from './locales'
 
 async function start() {
   const app: App = createApp(App)
+  const stores = createPinia()
+  stores.use(piniaPluginPersistedstate)
   app.use(stores)
   app.use(AntD)
   await setupI18n(app)

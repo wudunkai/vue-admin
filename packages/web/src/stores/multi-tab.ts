@@ -26,7 +26,7 @@ export const useMultiTab = defineStore({
   }),
   actions: {
     addItem(route: RouteLocationNormalizedLoaded) {
-      const { layoutSetting } = useLayoutStore()
+      const { layoutSetting } = useAppStore()
       if (!route) return
       // 判断是不是重定向的地址，如果是，那么就不进行处理
       if (route.path.startsWith('/redirect') || route.path.startsWith('/common')) return
@@ -63,7 +63,7 @@ export const useMultiTab = defineStore({
       this.list.push(item)
     },
     close(key: string) {
-      const { layoutSetting } = useLayoutStore()
+      const { layoutSetting } = useAppStore()
       // 判断长度是不是小于等于1，如果是那么这个就不能被关闭
       if (this.list.length <= 1) {
         console.log('不能关闭最后一个标签页')

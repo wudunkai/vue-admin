@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const app = useThemeColorStore()
+const app = useAppStore()
 const { antd } = useI18nLocale()
 </script>
 

@@ -7,8 +7,8 @@ export default {
   'app.setting.content-width.accordionMode': '菜单手风琴模式',
 
   'app.setting.interfaceDisplay': '界面显示',
-  'app.setting.colorWeakMode': '色弱模式',
-  'app.setting.grayMode': '灰色模式',
+  'app.setting.colorWeak': '色弱模式',
+  'app.setting.colorGray': '灰色模式',
   'app.setting.lang': '语言',
 
   'app.multiTab.closeCurrent': '关闭当前',

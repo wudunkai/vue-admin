@@ -2,6 +2,8 @@ import type { VNodeChild } from 'vue'
 
 export type MenuData = MenuDataItem[]
 
+export type ThemeType = 'light' | 'dark'
+
 export interface MenuDataItem {
   // 唯一id
   id?: string | number

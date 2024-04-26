@@ -7,23 +7,21 @@ export let i18n: I18n
 const defaultLoadLang = 'zh-CN'
 
 async function createI18nOptions(): Promise<I18nOptions> {
-  const themeColor = useThemeColorStore()
-  const { locale } = storeToRefs(themeColor)
+  const app = useAppStore()
+  const { layoutSetting } = storeToRefs(app)
   // 扩展可从服务器端获取语言翻译文件
   let defaultLocal
   try {
-    defaultLocal = await import(`./lang/${locale.value}.ts`)
+    defaultLocal = await import(`./lang/${layoutSetting.value.locale}.ts`)
   } catch (e) {
     defaultLocal = await import(`./lang/${defaultLoadLang}.ts`)
   }
-  console.log(defaultLocal)
-
   return {
     legacy: false,
-    locale: locale.value,
+    locale: layoutSetting.value.locale,
     fallbackLocale: 'zh-CN',
     messages: {
-      [locale.value]: defaultLocal.default
+      [layoutSetting.value.locale]: defaultLocal.default
     },
     sync: true,
     silentTranslationWarn: true,

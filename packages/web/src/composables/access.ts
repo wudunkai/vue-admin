@@ -2,7 +2,7 @@ import { toArray } from 'lodash'
 import type { AccessEnum } from '@/utils/constant'
 
 export function useAccess() {
-  const userStore = useAppStore()
+  const userStore = useUserStore()
   const roles = computed(() => userStore.roles)
   const hasAccess = (roles: (string | number)[] | string | number | AccessEnum) => {
     const accessRoles = userStore.roles

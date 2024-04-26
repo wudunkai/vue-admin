@@ -8,22 +8,11 @@ import { deepFind } from '@/utils/tree'
 export const useLayoutStore = defineStore({
   id: 'layouts',
   state: () => ({
-    collapsed: false,
     menuDataMap: reactive(new Map<string, MenuDataItem>()),
     selectedKeys: ref<string[]>([]),
-    openKeys: ref<string[]>([]),
-    layoutSetting: reactive({
-      animationName: 'slide-fadein-right',
-      keepAlive: true,
-      accordionMode: true
-    })
+    openKeys: ref<string[]>([])
   }),
   actions: {
-    async toggleCollapsed() {
-      this.$patch({
-        collapsed: !this.collapsed
-      })
-    },
     toMapMenuData(
       menuData: MenuData,
       menuDataMap: Map<string, MenuDataItem>,
@@ -36,6 +25,7 @@ export const useLayoutStore = defineStore({
       })
     },
     changeMenu() {
+      const { layoutSetting } = useAppStore()
       const route = router.currentRoute.value
       const path: any = route.meta?.originPath ?? route.path
       if (this.menuDataMap.has(path)) {
@@ -48,7 +38,7 @@ export const useLayoutStore = defineStore({
         // 设置openkeys
         if (menu?.matched) {
           const newOpenKeys = menu.matched.map((v) => v.path)
-          if (!this.layoutSetting.accordionMode)
+          if (!layoutSetting.accordionMode)
             this.openKeys = [...new Set([...this.openKeys, ...newOpenKeys])]
           else this.openKeys = newOpenKeys
         }
@@ -58,7 +48,7 @@ export const useLayoutStore = defineStore({
       const findMenuByPath = (path: string) => {
         return (obj: MenuData) => deepFind((o) => o.path === path)(obj)
       }
-      const { menuData } = storeToRefs(useAppStore())
+      const { menuData } = storeToRefs(useUserStore())
       const rootSubmenuKeys: string[] | undefined = menuData.value?.map((item) => {
         return item.path
       })
@@ -89,10 +79,10 @@ export const useLayoutStore = defineStore({
         selectedKeys: []
       })
     }
+  },
+  persist: {
+    key: 'layouts', // 指定key进行存储，此时非key的值不会持久化，刷新就会丢失
+    storage: localStorage, // 指定换成地址
+    paths: ['layoutSetting'] // 指定需要持久化的state的路径名称
   }
-  // persist: {
-  //   key: 'layouts', // 指定key进行存储，此时非key的值不会持久化，刷新就会丢失
-  //   storage: localStorage // 指定换成地址
-  //   // paths: ['collapsed'] // 指定需要持久化的state的路径名称
-  // }
 })

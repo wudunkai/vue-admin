@@ -482,10 +482,10 @@ export interface UserInfo {
   roles?: (string | number)[]
 }
 
-export const useAppStore = defineStore({
-  id: 'userInfo',
+export const useUserStore = defineStore({
+  id: 'user',
   state: () => ({
-    token: '', // token
+    token: '123', // token
     roles: [],
     userInfo: shallowRef<UserInfo>(),
     menuData: shallowRef<MenuData>([]),

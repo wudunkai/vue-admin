@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import SubMenu from './sub-menu.vue'
 import { isUrl } from '@/utils/methods'
-const app = useAppStore()
+const user = useUserStore()
 const router = useRouter()
 const layout = useLayoutStore()
+const { layoutSetting } = storeToRefs(useAppStore())
 const { VITE_GLOB_WEB_NAME } = import.meta.env
 watch(
-  () => app.menuData,
+  () => user.menuData,
   (val) => {
     layout.toMapMenuData(val, layout.menuDataMap)
     layout.changeMenu()
@@ -19,21 +20,19 @@ watch(router.currentRoute, (route) => {
   layout.changeMenu()
 })
 const handleOpenKeys = (val: string[]) => {
-  if (layout.layoutSetting.accordionMode) layout.handleAccordionMode(val)
+  if (layoutSetting.value.accordionMode) layout.handleAccordionMode(val)
   else layout.openKeys = val
 }
 const handleSelectedKeys = (val: string[]) => {
   // 如果点击的是外部的菜单，那么我们就不需要设置成为激活的状态
   const path = val[0]
-  console.log(!isUrl(path), val)
-
   if (!isUrl(path)) layout.selectedKeys = val
 }
 </script>
 
 <template>
   <a-layout-sider
-    v-model:collapsed="layout.collapsed"
+    v-model:collapsed="layoutSetting.collapsed"
     collapsedWidth="64"
     :trigger="null"
     collapsible
@@ -50,9 +49,9 @@ const handleSelectedKeys = (val: string[]) => {
         @update:selected-keys="handleSelectedKeys"
         mode="inline"
         theme="dark"
-        :open-keys="layout.collapsed ? [] : layout.openKeys"
+        :open-keys="layoutSetting.collapsed ? [] : layout.openKeys"
       >
-        <template v-for="item in app.menuData">
+        <template v-for="item in user.menuData">
           <template v-if="!item.hideInMenu">
             <SubMenu :key="item.path" :item="item" />
           </template>

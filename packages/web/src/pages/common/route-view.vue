@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ParentCompConsumer } from '@/layouts/basic-layout/parent-comp-consumer'
-const app = useLayoutStore()
-const { layoutSetting } = storeToRefs(app)
+const { layoutSetting } = storeToRefs(useAppStore())
 const multiTabStore = useMultiTab()
 const { cacheList } = storeToRefs(multiTabStore)
 </script>

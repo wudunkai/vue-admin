@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { SettingOutlined } from '@ant-design/icons-vue'
-const theme = useThemeColorStore()
-const layout = useLayoutStore()
+const app = useAppStore()
 const { setLocale, t } = useI18nLocale()
 const open = ref<boolean>(false)
 const showDrawer = () => {
   open.value = true
 }
 const interfaceDisplayList = [
-  { title: 'app.setting.grayMode', field: 'grayMode', type: 'switch', show: true },
-  { title: 'app.setting.colorWeakMode', field: 'colorWeakMode', type: 'switch', show: true },
+  { title: 'app.setting.colorGray', field: 'colorGray', type: 'switch', show: true },
+  { title: 'app.setting.colorWeak', field: 'colorWeak', type: 'switch', show: true },
   {
     title: 'app.setting.lang',
     field: 'locale',
@@ -58,11 +57,15 @@ const formItemLayout = computed(() => {
       <themeColor />
       <a-divider>{{ t('app.setting.interfaceDisplay') }}</a-divider>
       <a-form class="form-setting" v-bind="formItemLayout">
-        <FormItems :formLabel="interfaceDisplayList" :data="theme" @change-select="changeSelect" />
+        <FormItems
+          :formLabel="interfaceDisplayList"
+          :data="app.layoutSetting"
+          @change-select="changeSelect"
+        />
       </a-form>
       <a-divider>{{ t('app.setting.navigationMode') }}</a-divider>
       <a-form class="form-setting" v-bind="formItemLayout">
-        <FormItems :formLabel="navigationModeList" :data="layout" />
+        <FormItems :formLabel="navigationModeList" :data="app.layoutSetting" />
       </a-form>
     </div>
     <template #footer>

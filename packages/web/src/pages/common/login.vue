@@ -6,7 +6,7 @@ import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons-vue
 import type { FormInstance } from 'ant-design-vue'
 const formPhoneRef = ref<FormInstance>()
 const formForgotRef = ref<FormInstance>()
-const app = useAppStore()
+const user = useUserStore()
 const router = useRouter()
 const { locale, setLocale, t } = useI18nLocale()
 function handleClick({ key }: any) {
@@ -166,7 +166,7 @@ window.initGeetest4(
         const { data, onSuccess }: any = useLogin(result)
         onSuccess(() => {
           if (data.value.code == 200) {
-            app.token = 'success'
+            user.token = 'success'
             router.push('/')
           }
           loading.value = false
