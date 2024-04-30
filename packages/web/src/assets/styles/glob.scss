@@ -1,5 +1,3 @@
-$primary: var(--el-color-primary);
-
 @mixin appRegion($txt) {
   -webkit-app-region: $txt
 }

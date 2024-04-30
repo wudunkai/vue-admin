@@ -7,7 +7,7 @@ export interface LayoutSetting {
   logo?: string
   theme: ThemeType
   collapsed: boolean
-  // drawerVisible: boolean
+  drawerVisible: boolean
   colorPrimary: string
   // layout?: LayoutType
   // contentWidth?: ContentWidth
@@ -29,7 +29,6 @@ export interface LayoutSetting {
   keepAlive?: boolean
   accordionMode?: boolean
   leftCollapsed?: boolean
-  compactAlgorithm?: boolean
   animationName?: AnimationNameValueType
 }
 /**
@@ -49,12 +48,17 @@ export const useAppStore = defineStore({
       })
     },
     toggleLocale(locale: string) {
-      lsLocaleState.value = locale
-    },
-    async setThemeName(value: string) {
       this.$patch({
         layoutSetting: {
-          colorPrimary: value
+          locale
+        }
+      })
+      lsLocaleState.value = locale
+    },
+    toggleColorPrimary(colorPrimary: string) {
+      this.$patch({
+        layoutSetting: {
+          colorPrimary
         }
       })
     },
@@ -64,22 +68,56 @@ export const useAppStore = defineStore({
           theme: this.layoutSetting.theme === 'light' ? 'dark' : 'light'
         }
       })
+    },
+    toggleGray(isGray = true) {
+      this.$patch({
+        layoutSetting: {
+          colorGray: isGray
+        }
+      })
+      const dom = document.querySelector('body')
+      if (dom) {
+        if (isGray) {
+          this.toggleWeak(false)
+          dom.style.filter = 'grayscale(100%)'
+        } else {
+          dom.style.filter = ''
+        }
+      }
+    },
+    toggleWeak(isWeak = true) {
+      this.$patch({
+        layoutSetting: {
+          colorWeak: isWeak
+        }
+      })
+      const dom = document.querySelector('body')
+      if (dom) {
+        if (isWeak) {
+          this.toggleGray(false)
+          dom.style.filter = 'invert(80%)'
+        } else {
+          dom.style.filter = ''
+        }
+      }
+    },
+    changeSettingLayout(key: keyof LayoutSetting, value: any) {
+      const { setLocale } = useI18nLocale()
+      if (key === 'locale') setLocale(value)
+      else if (key === 'colorPrimary') this.toggleColorPrimary(value)
+      // else if (key === 'layout') toggleLayout(value as LayoutType)
+      else if (key === 'colorWeak') this.toggleWeak(value)
+      else if (key === 'colorGray') this.toggleGray(value)
+      else if (key in this.layoutSetting) (this.layoutSetting as any)[key] = value
     }
   },
   getters: {
     themeConfig(state) {
-      document.documentElement.setAttribute('data-theme', state.layoutSetting.colorPrimary)
-      document.documentElement.setAttribute('data-dark', state.layoutSetting.theme)
-      document
-        .getElementsByTagName('body')[0]
-        .style.setProperty('--el-color-primary', state.layoutSetting.colorPrimary)
-      const classNames: Array<string> = []
-      state.layoutSetting.colorGray && classNames.push('color-gray')
-      state.layoutSetting.colorWeak && classNames.push('color-weak')
-      document.getElementsByTagName('html')[0].className = classNames.join(' ')
+      document.documentElement.setAttribute('data-theme', state.layoutSetting.theme)
       // 主题配置
       return {
         token: {
+          // colorBgContainer: '#fff',
           colorPrimary: state.layoutSetting.colorPrimary
         },
         algorithm:
@@ -88,10 +126,9 @@ export const useAppStore = defineStore({
             : anTdTheme.darkAlgorithm
       }
     }
+  },
+  persist: {
+    storage: localStorage, // 指定换成地址
+    paths: ['layoutSetting'] // 指定需要持久化的state的路径名称
   }
-  // persist: {
-  //   key: 'layouts', // 指定key进行存储，此时非key的值不会持久化，刷新就会丢失
-  //   storage: localStorage, // 指定换成地址
-  //   paths: ['layoutSetting'] // 指定需要持久化的state的路径名称
-  // }
 })

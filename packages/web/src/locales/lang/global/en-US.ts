@@ -3,13 +3,29 @@ export default {
   'app.setting.project': 'Project Configuration',
   'app.setting.topic': 'Topic',
 
-  'app.setting.navigationMode': 'Navigation Mode',
-  'app.setting.content-width.accordionMode': 'Menu Accordion Mode',
+  'app.setting.themeColor': 'Theme Color',
+  'app.setting.themeColor.dust': 'Dust Red',
+  'app.setting.themeColor.volcano': 'Volcano',
+  'app.setting.themeColor.sunset': 'Sunset Orange',
+  'app.setting.themeColor.cyan': 'Cyan',
+  'app.setting.themeColor.green': 'Polar Green',
+  'app.setting.themeColor.daybreak': 'Daybreak Blue',
+  'app.setting.themeColor.techBlue': 'Technology (default)',
+  'app.setting.themeColor.geekBlue': 'Geek Glue',
+  'app.setting.themeColor.purple': 'Golden Purple',
 
-  'app.setting.interfaceDisplay': 'Interface Display',
+  'app.setting.navigationMode': 'Navigation Mode',
+  'app.setting.content-width.keepAlive': 'KeepAlive',
+  'app.setting.content-width.accordionMode': 'Menu Accordion Mode',
+  'app.setting.content-width.leftCollapsed': 'sideMenu Left',
+
+  'app.setting.otherSettings': 'Other Settings',
   'app.setting.colorWeak': 'Weak Mode',
   'app.setting.colorGray': 'Gray Mode',
-  'app.setting.lang': 'Languages',
+
+  'app.setting.contentArea.title': 'Content Area',
+  'app.setting.content-area.locale': 'Languages',
+  'app.setting.content-area.animationName': 'Animation',
 
   'app.multiTab.closeCurrent': 'Close Current',
   'app.multiTab.closeOther': 'Close Other',

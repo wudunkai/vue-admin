@@ -425,7 +425,7 @@ window.initGeetest4(
     background-size: auto 100%;
   }
 }
-html[data-dark='dark'] .w-login {
+html[data-theme='dark'] .w-login {
   &:before {
     background-image: url('../../assets/svg/login-bg-dark.svg');
   }

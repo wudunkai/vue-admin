@@ -39,7 +39,7 @@ function renderTitle(title: VNodeChild | (() => VNodeChild)) {
 </script>
 
 <template>
-  <a-breadcrumb>
+  <a-breadcrumb class="breadcrumb">
     <a-breadcrumb-item v-for="item in currentItem.matched" :key="item.path">
       {{ renderTitle(item.title) }}
       <template #overlay v-if="item.children">
@@ -55,3 +55,9 @@ function renderTitle(title: VNodeChild | (() => VNodeChild)) {
     </a-breadcrumb-item>
   </a-breadcrumb>
 </template>
+
+<style lang="scss">
+.breadcrumb {
+  margin: 0.5rem;
+}
+</style>

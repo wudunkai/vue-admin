@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import Breadcrumb from './breadcrumb.vue'
 import Icon, {
+  SettingOutlined,
   MenuFoldOutlined,
   MinusOutlined,
   BorderOutlined,
   CloseOutlined,
   MenuUnfoldOutlined
 } from '@ant-design/icons-vue'
+const { t } = useI18nLocale()
 // import { ipcRenderer } from 'electron'
 const app = useAppStore()
 const isMax = ref(true)
@@ -14,7 +17,11 @@ const isMax = ref(true)
 <template>
   <a-layout-header class="header">
     <div class="header-title">
-      <ProjectConfiguration />
+      <SettingOutlined
+        class="icon-btn"
+        :title="t('app.setting.project')"
+        @click="app.changeSettingLayout('drawerVisible', true)"
+      />
       <!-- <MinusOutlined class="icon-btn" :title="$t('app.common.minimize')" @click="ipcRenderer.send('window-min')" />
       <BorderOutlined class="icon-btn"
         :title="$t('app.common.maximize')"
@@ -30,11 +37,13 @@ const isMax = ref(true)
     </div>
     <div class="header-content">
       <div class="header-right">
-        <a-button type="link" class="menu" @click="app.toggleCollapsed">
-          <MenuUnfoldOutlined v-if="app.layoutSetting.collapsed" />
-          <MenuFoldOutlined v-else />
-        </a-button>
-        <Breadcrumb />
+        <icon v-if="!app.layoutSetting.leftCollapsed" class="icon-btn" @click="app.toggleCollapsed">
+          <template #component>
+            <MenuUnfoldOutlined class="icon" v-if="app.layoutSetting.collapsed" />
+            <MenuFoldOutlined class="icon" v-else />
+          </template>
+        </icon>
+        <Breadcrumb :style="`margin-left:${app.layoutSetting.leftCollapsed}rem`" />
       </div>
     </div>
   </a-layout-header>
@@ -72,10 +81,14 @@ const isMax = ref(true)
         display: flex;
         align-items: center;
         @include appRegion(no-drag);
+        .icon-btn {
+          cursor: pointer;
+          padding: 0.5rem 0.8rem;
+        }
       }
     }
   }
-  html[data-dark='dark'] {
+  html[data-theme='dark'] {
     .header {
       span {
         &:hover {

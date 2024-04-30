@@ -12,7 +12,7 @@ $curMode: light;
   $value in $modes {
     $curMode: $key !global;
 
-    html[data-dark='#{$key}'] & {
+    html[data-theme='#{$key}'] & {
       @content;
     }
 
@@ -49,7 +49,7 @@ body {
   }
 }
 
-html[data-dark=light] {
+html[data-theme=light] {
 
   .ant-layout-header,
   .pro-ant-multi-tab {
@@ -63,7 +63,7 @@ html[data-dark=light] {
   }
 }
 
-html[data-dark=dark] {
+html[data-theme=dark] {
 
   .icon-btn {
     &:hover {
@@ -74,7 +74,7 @@ html[data-dark=dark] {
 
 // 色弱模式
 html.color-weak {
-  filter: grayscale(80%);
+  filter: invert(80%);
 }
 
 // 灰色模式

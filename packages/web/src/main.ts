@@ -9,7 +9,7 @@ import './router/router-guard'
 import { setupI18n } from './locales'
 
 async function start() {
-  const app: App = createApp(App)
+  const app = createApp(App)
   const stores = createPinia()
   stores.use(piniaPluginPersistedstate)
   app.use(stores)

@@ -1,12 +1,21 @@
 <script setup lang="ts">
 const app = useAppStore()
+import Icon from '@ant-design/icons-vue'
 </script>
 
 <template>
   <div class="theme-color" @click="app.toggleDarkMode">
     <div class="dark-switch-inner"></div>
-    <LightIcon class="icon" />
-    <DarkIcon class="icon" />
+    <icon class="icon">
+      <template #component>
+        <LightIcon :style="{ color: app?.layoutSetting.colorPrimary }" />
+      </template>
+    </icon>
+    <icon class="icon">
+      <template #component>
+        <DarkIcon :style="{ color: app?.layoutSetting.colorPrimary }" />
+      </template>
+    </icon>
   </div>
 </template>
 
@@ -39,14 +48,13 @@ const app = useAppStore()
   .icon {
     width: 1rem;
     height: 1rem;
-    color: $primary;
     display: inline-block;
     overflow: hidden;
     fill: currentcolor;
     vertical-align: -0.15em;
   }
 }
-html[data-dark='dark'] {
+html[data-theme='dark'] {
   // 主题按钮样式
   .theme-color {
     border-color: #c4bcbc;

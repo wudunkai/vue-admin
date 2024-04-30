@@ -5,7 +5,7 @@ export default {
   theme: 'light',
   logo: '/logo.svg',
   collapsed: false,
-  // drawerVisible: false,
+  drawerVisible: false,
   colorPrimary: '#1677FF',
   // layout: 'mix',
   // contentWidth: 'Fluid',
@@ -24,8 +24,7 @@ export default {
   locale: lsLocaleState.value,
   keepAlive: true,
   accordionMode: false,
-  // leftCollapsed: true,
-  // compactAlgorithm: false,
+  leftCollapsed: false,
   // headerHeight: 48,
   copyright: 'Antdv Pro Team 2023',
   animationName: 'slide-fadein-right'
@@ -53,6 +52,18 @@ export const animationNameList = [
     value: 'fadein'
   }
 ]
+
+export const localeList = [
+  {
+    label: '简体中文',
+    value: 'zh-CN'
+  },
+  {
+    label: 'English',
+    value: 'en-US'
+  }
+]
+
 export type AnimationNameValueType =
   | 'none'
   | 'slide-fadein-up'

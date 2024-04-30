@@ -3,13 +3,29 @@ export default {
   'app.setting.project': '项目配置',
   'app.setting.topic': '主题',
 
-  'app.setting.navigationMode': '导航模式',
-  'app.setting.content-width.accordionMode': '菜单手风琴模式',
+  'app.setting.themeColor': '主题色',
+  'app.setting.themeColor.dust': '薄暮',
+  'app.setting.themeColor.volcano': '火山',
+  'app.setting.themeColor.sunset': '日暮',
+  'app.setting.themeColor.cyan': '明青',
+  'app.setting.themeColor.green': '极光绿',
+  'app.setting.themeColor.daybreak': '拂晓',
+  'app.setting.themeColor.techBlue': '科技（默认）',
+  'app.setting.themeColor.geekBlue': '极客蓝',
+  'app.setting.themeColor.purple': '酱紫',
 
-  'app.setting.interfaceDisplay': '界面显示',
+  'app.setting.navigationMode': '导航模式',
+  'app.setting.content-width.keepAlive': '缓存功能',
+  'app.setting.content-width.accordionMode': '菜单手风琴模式',
+  'app.setting.content-width.leftCollapsed': '侧边菜单折叠左侧',
+
+  'app.setting.otherSettings': '其他模式',
   'app.setting.colorWeak': '色弱模式',
   'app.setting.colorGray': '灰色模式',
-  'app.setting.lang': '语言',
+
+  'app.setting.contentArea.title': '内容区域',
+  'app.setting.content-area.locale': '语言',
+  'app.setting.content-area.animationName': '动画',
 
   'app.multiTab.closeCurrent': '关闭当前',
   'app.multiTab.closeOther': '关闭其他',

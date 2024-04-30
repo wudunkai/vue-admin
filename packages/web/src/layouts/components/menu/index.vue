@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import SubMenu from './sub-menu.vue'
 import { isUrl } from '@/utils/methods'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
+const app = useAppStore()
 const user = useUserStore()
 const router = useRouter()
 const layout = useLayoutStore()
-const { layoutSetting } = storeToRefs(useAppStore())
+const { layoutSetting } = storeToRefs(app)
 const { VITE_GLOB_WEB_NAME } = import.meta.env
 watch(
   () => user.menuData,
@@ -58,6 +60,21 @@ const handleSelectedKeys = (val: string[]) => {
         </template>
       </a-menu>
     </div>
+    <a-menu
+      v-if="layoutSetting.leftCollapsed"
+      class="ant-sider-collapsed-button"
+      mode="inline"
+      theme="dark"
+      :selectable="false"
+      @click="app.toggleCollapsed"
+    >
+      <a-menu-item>
+        <template #icon>
+          <MenuUnfoldOutlined v-if="layoutSetting.collapsed" />
+          <MenuFoldOutlined v-else />
+        </template>
+      </a-menu-item>
+    </a-menu>
   </a-layout-sider>
 </template>
 
@@ -91,7 +108,7 @@ const handleSelectedKeys = (val: string[]) => {
       }
     }
     .menu {
-      flex: 1;
+      flex: 1 1 0%;
       overflow-y: auto;
       overflow-x: hidden;
     }

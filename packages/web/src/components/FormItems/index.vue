@@ -66,9 +66,8 @@ const getTextI18n = (text: string) => {
         v-model:checked="formData[item.field]"
         :disabled="item.disabled"
         :size="item.size"
+        @update:checked="handleToggleChange(item.key, $event)"
       >
-        <template #checkedChildren><check-outlined /></template>
-        <template #unCheckedChildren><close-outlined /></template>
       </a-switch>
       <a-input
         v-else

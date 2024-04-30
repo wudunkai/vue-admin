@@ -2,6 +2,8 @@ import type { VNodeChild } from 'vue'
 
 export type MenuData = MenuDataItem[]
 
+export type CheckedType = boolean | string | number
+
 export type ThemeType = 'light' | 'dark'
 
 export interface MenuDataItem {

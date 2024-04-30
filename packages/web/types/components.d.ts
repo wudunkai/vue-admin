@@ -7,15 +7,13 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Breadcrumb: typeof import('./../src/components/Breadcrumb/index.vue')['default']
     CarbonLanguage: typeof import('./../src/components/Icons/carbon-language.vue')['default']
     DarkIcon: typeof import('./../src/components/Icons/dark-icon.vue')['default']
     FormItems: typeof import('./../src/components/FormItems/index.vue')['default']
     LightIcon: typeof import('./../src/components/Icons/light-icon.vue')['default']
-    ProjectConfiguration: typeof import('./../src/components/ProjectConfiguration/index.vue')['default']
     RestoreDown: typeof import('./../src/components/Icons/restore-down.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ThemeColor: typeof import('./../src/components/ThemeColor/index.vue')['default']
+    ThemeType: typeof import('./../src/components/ThemeType/index.vue')['default']
   }
 }
