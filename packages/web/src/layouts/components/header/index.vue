@@ -22,18 +22,32 @@ const isMax = ref(true)
         :title="t('app.setting.project')"
         @click="app.changeSettingLayout('drawerVisible', true)"
       />
-      <!-- <MinusOutlined class="icon-btn" :title="$t('app.common.minimize')" @click="ipcRenderer.send('window-min')" />
-      <BorderOutlined class="icon-btn"
+      <!-- <MinusOutlined
+        class="icon-btn"
+        :title="$t('app.common.minimize')"
+        @click="ipcRenderer.send('window-min')"
+      />
+      <BorderOutlined
+        class="icon-btn"
         :title="$t('app.common.maximize')"
         v-if="isMax"
         @click="(isMax = !isMax), ipcRenderer.send('window-max')"
       />
-      <icon class="icon-btn" :title="$t('app.common.restoreDown')" v-else @click="(isMax = !isMax), ipcRenderer.send('window-max')">
+      <icon
+        class="icon-btn"
+        :title="$t('app.common.restoreDown')"
+        v-else
+        @click="(isMax = !isMax), ipcRenderer.send('window-max')"
+      >
         <template #component>
-           <restoreDown class="icon" />
+          <restoreDown class="icon" />
         </template>
       </icon>
-      <CloseOutlined  class="icon-btn close" @click="ipcRenderer.send('window-close')" :title="$t('app.common.close')" /> -->
+      <CloseOutlined
+        class="icon-btn close"
+        @click="ipcRenderer.send('window-close')"
+        :title="$t('app.common.close')"
+      /> -->
     </div>
     <div class="header-content">
       <div class="header-right">
