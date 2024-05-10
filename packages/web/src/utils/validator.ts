@@ -8,11 +8,13 @@ export const validatorMobile = async (_rule: Rule, value: string | undefined) =>
     return Promise.resolve()
   }
 }
+interface extension {
+  messages: string
+}
 // 校验
-export const validator = async (_rule: Rule, value: string | undefined) => {
-  const messages = _rule.messages as string
-  if (typeof value !== 'string' || !value) {
-    return Promise.reject(t(messages))
+export const validator = async (_rule: Rule & extension, value: string | undefined) => {
+  if (_rule?.messages && (typeof value !== 'string' || !value)) {
+    return Promise.reject(t(_rule?.messages))
   } else {
     return Promise.resolve()
   }

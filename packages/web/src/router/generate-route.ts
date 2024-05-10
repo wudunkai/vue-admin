@@ -53,7 +53,7 @@ export function genRoutes(routes: RouteRecordRaw[], parent?: MenuDataItem) {
     }
     // 判断是不是存在name，如果不存在name的情况下，自动补充一个自定义的name，为了更容易的去实现保活的功能，name是必须的
     if (!route.name) route.name = getCacheKey()
-    const item: MenuDataItem = formatMenu(route, path)
+    const item: MenuDataItem = formatMenu(route, path) as MenuDataItem
     item.children = []
     if (route.children && route.children.length) item.children = genRoutes(route.children, item)
     if (item.children?.length === 0) delete item.children
@@ -91,7 +91,7 @@ export function generateTreeRoutes(menus: MenuData) {
         locale: menuItem?.locale
       }
     } as RouteRecordRaw
-    const menu = formatMenu(route)
+    const menu = formatMenu(route) as MenuDataItem
     routeDataMap.set(menuItem.id, route)
     menuDataMap.set(menuItem.id, menu)
   }

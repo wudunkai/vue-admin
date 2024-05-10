@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { t } = useI18nLocale()
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons-vue'
 const props = defineProps({
   // 表单列表
   formLabel: {
@@ -61,14 +60,6 @@ const getTextI18n = (text: string) => {
           {{ opt.label }}
         </a-select-option>
       </a-select>
-      <a-switch
-        v-else-if="item.type == 'switch'"
-        v-model:checked="formData[item.field]"
-        :disabled="item.disabled"
-        :size="item.size"
-        @update:checked="handleToggleChange(item.key, $event)"
-      >
-      </a-switch>
       <a-input
         v-else
         v-model:value="formData[item.field]"
@@ -100,6 +91,13 @@ const getTextI18n = (text: string) => {
           >
         </template>
       </a-input>
+      <template #error="{ errors }">
+        {{ errors }}
+        <!-- 当验证失败时，errors 数组包含错误信息 -->
+        <div v-if="errors" style="color: red">
+          <div v-for="error in errors" :key="error">{{ error }}</div>
+        </div>
+      </template>
     </a-form-item>
   </template>
 </template>

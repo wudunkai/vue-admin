@@ -205,7 +205,7 @@ window.initGeetest4(
           </a-menu>
         </template>
       </a-dropdown>
-      <themeColor />
+      <ThemeType />
     </div>
     <div class="container">
       <div class="container-left">
@@ -350,7 +350,7 @@ window.initGeetest4(
   }
   .container {
     display: flex;
-    padding: 2rem 6rem;
+    padding: 4rem 6rem 0 6rem;
     .container-left,
     .container-right {
       flex: 1;
@@ -387,7 +387,7 @@ window.initGeetest4(
       }
     }
     .container-right {
-      padding: 10rem;
+      padding: 10rem 0;
       .container-right-content {
         padding: 1rem 5rem;
         .login-form,

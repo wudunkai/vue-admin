@@ -65,7 +65,6 @@ onUnmounted(() => {
               v-if="activeKey === item.fullPath"
               class="ant-tabs-tab-remove"
               style="margin: 0"
-              type="link"
               size="small"
               @click.stop="multiTabStore.refresh(item.fullPath)"
             >
@@ -73,9 +72,8 @@ onUnmounted(() => {
             </a-button>
             <a-button
               v-if="!item.affix && list.length > 1"
-              class="ant-tabs-tab-remove"
+              class="ant-tabs-tab-remove ant-tabs-dropdown-menu-item-remove"
               style="margin: 0"
-              type="link"
               size="small"
               @click.stop="multiTabStore.close(item.fullPath)"
             >
