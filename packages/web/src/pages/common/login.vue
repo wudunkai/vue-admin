@@ -4,6 +4,8 @@ import { useLogin, getUserPhoneCaptcha } from '@/api/login'
 import { validatorMobile, validator } from '@/utils/validator'
 import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
+const app = useAppStore()
+const { layoutSetting } = storeToRefs(app)
 const formPhoneRef = ref<FormInstance>()
 const formForgotRef = ref<FormInstance>()
 const user = useUserStore()
@@ -210,7 +212,7 @@ window.initGeetest4(
     <div class="container">
       <div class="container-left">
         <div class="app-logo-content -enter-x -enter-left-x">
-          <img src="../../assets/images/logo.webp" class="app-logo" alt="Logo" />
+          <img :src="layoutSetting.logo" class="app-logo" alt="Logo" />
           <div class="app-logo-title">{{ VITE_GLOB_WEB_NAME }}</div>
         </div>
         <div class="my-auto -enter-x -enter-left-x">

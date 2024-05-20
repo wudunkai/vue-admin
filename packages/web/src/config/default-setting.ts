@@ -3,7 +3,7 @@ import type { LayoutSetting } from '@/stores/index'
 export default {
   title: 'Antdv Pro',
   theme: 'light',
-  logo: '/logo.svg',
+  logo: '/logo.webp',
   collapsed: false,
   drawerVisible: false,
   colorPrimary: '#1677FF',

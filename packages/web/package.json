@@ -29,12 +29,14 @@
       "./dist-electron"
     ],
     "mac": {
+      "icon": "./public/logo.png",
       "artifactName": "${productName}_${version}.${ext}",
       "target": [
         "dmg"
       ]
     },
     "win": {
+      "icon": "./public/logo.png",
       "target": [
         {
           "target": "nsis",

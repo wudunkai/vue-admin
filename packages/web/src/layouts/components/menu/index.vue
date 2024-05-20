@@ -41,7 +41,7 @@ const handleSelectedKeys = (val: string[]) => {
     class="sider-content"
   >
     <div class="logo">
-      <img src="../../../assets/images/logo.webp" class="app-logo" alt="Logo" />
+      <img :src="layoutSetting.logo" class="app-logo" alt="Logo" />
       <div class="app-logo-title">{{ VITE_GLOB_WEB_NAME }}</div>
     </div>
     <div class="menu scrollbar">

@@ -9,7 +9,7 @@ import Icon, {
   MenuUnfoldOutlined
 } from '@ant-design/icons-vue'
 const { t } = useI18nLocale()
-// import { ipcRenderer } from 'electron'
+import { ipcRenderer } from 'electron'
 const app = useAppStore()
 const isMax = ref(true)
 </script>
@@ -22,7 +22,7 @@ const isMax = ref(true)
         :title="t('app.setting.project')"
         @click="app.changeSettingLayout('drawerVisible', true)"
       />
-      <!-- <MinusOutlined
+      <MinusOutlined
         class="icon-btn"
         :title="$t('app.common.minimize')"
         @click="ipcRenderer.send('window-min')"
@@ -47,7 +47,7 @@ const isMax = ref(true)
         class="icon-btn close"
         @click="ipcRenderer.send('window-close')"
         :title="$t('app.common.close')"
-      /> -->
+      />
     </div>
     <div class="header-content">
       <div class="header-right">
