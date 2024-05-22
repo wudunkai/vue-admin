@@ -32,7 +32,7 @@ export default ({ mode }: never) => {
         imports: ['vue', 'vue-router', '@vueuse/core', 'pinia'],
         // 可以选择auto-import.d.ts生成的位置，使用ts建议设置为'types/auto-import.d.ts'
         dts: 'types/auto-import.d.ts',
-        dirs: ['src/stores', 'src/composables']
+        dirs: ['src/stores', 'src/composables', 'src/hooks/**']
       }),
       Components({
         dirs: ['src/components'],

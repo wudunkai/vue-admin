@@ -44,7 +44,7 @@ const handleSelectedKeys = (val: string[]) => {
       <img :src="layoutSetting.logo" class="app-logo" alt="Logo" />
       <div class="app-logo-title">{{ VITE_GLOB_WEB_NAME }}</div>
     </div>
-    <div class="menu scrollbar">
+    <Scrollbar>
       <a-menu
         :selected-keys="layout.selectedKeys"
         @update:open-keys="handleOpenKeys"
@@ -59,7 +59,7 @@ const handleSelectedKeys = (val: string[]) => {
           </template>
         </template>
       </a-menu>
-    </div>
+    </Scrollbar>
     <a-menu
       v-if="layoutSetting.leftCollapsed"
       class="ant-sider-collapsed-button"
@@ -106,11 +106,6 @@ const handleSelectedKeys = (val: string[]) => {
         font-weight: 700;
         line-height: normal;
       }
-    }
-    .menu {
-      flex: 1 1 0%;
-      overflow-y: auto;
-      overflow-x: hidden;
     }
   }
 }

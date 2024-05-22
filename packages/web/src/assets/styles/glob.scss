@@ -1,22 +1,3 @@
 @mixin appRegion($txt) {
   -webkit-app-region: $txt
 }
-
-.scrollbar {
-  &::-webkit-scrollbar {
-    width: 5px;
-    height: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: rgba(190, 190, 190, 0.2);
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 0;
-    -webkit-box-shadow: inset 0 0 5px rgba(227, 227, 227, 0.2);
-    background: rgba(0, 0, 0, 0.1);
-  }
-}

@@ -62,41 +62,45 @@ function changeSettingLayout(key: string, value: any) {
     :footer-style="{ textAlign: 'right' }"
     placement="right"
   >
-    <a-divider>{{ t?.('app.setting.topic') }}</a-divider>
-    <ThemeType />
-    <Body :title="t?.('app.setting.themeColor') ?? '主题色'">
-      <ThemeColor :t="t" :color-list="colorList" :color="colorPrimary" @change="changeColor" />
-    </Body>
-    <a-divider />
-    <Body :title="t?.('app.setting.navigationMode')">
-      <LayoutSetting
-        :t="t"
-        :keep-alive="keepAlive"
-        :accordion-mode="accordionMode"
-        :left-collapsed="leftCollapsed"
-        @change-setting="changeSettingLayout"
-      />
-    </Body>
-    <a-divider />
-    <Body :title="t?.('app.setting.contentArea.title')">
-      <RegionalSetting
-        :t="t"
-        :locale="locale"
-        :locale-list="localeList"
-        :animation-name="animationName"
-        :animation-name-list="animationNameList"
-        @change-setting="changeSettingLayout"
-      />
-    </Body>
-    <a-divider />
-    <Body :title="t?.('app.setting.otherSettings')">
-      <OtherSetting
-        :t="t"
-        :color-weak="colorWeak"
-        :color-gray="colorGray"
-        @change-setting="changeSettingLayout"
-      />
-    </Body>
+    <ScrollContainer>
+      <div class="project-configuration-body">
+        <a-divider>{{ t?.('app.setting.topic') }}</a-divider>
+        <ThemeType />
+        <Body :title="t?.('app.setting.themeColor') ?? '主题色'">
+          <ThemeColor :t="t" :color-list="colorList" :color="colorPrimary" @change="changeColor" />
+        </Body>
+        <a-divider />
+        <Body :title="t?.('app.setting.navigationMode')">
+          <LayoutSetting
+            :t="t"
+            :keep-alive="keepAlive"
+            :accordion-mode="accordionMode"
+            :left-collapsed="leftCollapsed"
+            @change-setting="changeSettingLayout"
+          />
+        </Body>
+        <a-divider />
+        <Body :title="t?.('app.setting.contentArea.title')">
+          <RegionalSetting
+            :t="t"
+            :locale="locale"
+            :locale-list="localeList"
+            :animation-name="animationName"
+            :animation-name-list="animationNameList"
+            @change-setting="changeSettingLayout"
+          />
+        </Body>
+        <a-divider />
+        <Body :title="t?.('app.setting.otherSettings')">
+          <OtherSetting
+            :t="t"
+            :color-weak="colorWeak"
+            :color-gray="colorGray"
+            @change-setting="changeSettingLayout"
+          />
+        </Body>
+      </div>
+    </ScrollContainer>
     <template #footer>
       <a-button style="margin-right: 8px" @click="changeSettingLayout('drawerVisible', false)">{{
         t?.('app.common.close')
@@ -108,5 +112,11 @@ function changeSettingLayout(key: string, value: any) {
 <style lang="scss">
 .project-configuration {
   @include appRegion(no-drag);
+  .ant-drawer-body {
+    padding: 0px;
+  }
+  &-body {
+    padding: 24px;
+  }
 }
 </style>

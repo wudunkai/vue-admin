@@ -14,6 +14,8 @@ declare module 'vue' {
     RestoreDown: typeof import('./../src/components/Icons/restore-down.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Scrollbar: typeof import('./../src/components/ScrollContainer/components/src/Scrollbar.vue')['default']
+    ScrollContainer: typeof import('./../src/components/ScrollContainer/index.vue')['default']
     ThemeType: typeof import('./../src/components/ThemeType/index.vue')['default']
   }
 }

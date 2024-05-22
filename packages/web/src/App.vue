@@ -1,10 +1,16 @@
 <script setup lang="ts">
-const app = useAppStore()
+const { colorPrimary, algorithm } = useThemeConfig()
 const { antd } = useI18nLocale()
+const themeConfig = reactive({
+  token: {
+    colorPrimary
+  },
+  algorithm
+})
 </script>
 
 <template>
-  <a-config-provider :theme="app.themeConfig" :locale="antd">
+  <a-config-provider :theme="themeConfig" :locale="antd">
     <RouterView />
   </a-config-provider>
 </template>

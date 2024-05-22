@@ -9,3 +9,9 @@ interface Window {
   gt?: any
   initGeetest4?: any
 }
+
+type Recordable<T> = Record<string, T>
+
+declare interface Fn<T = any, R = T> {
+  (...arg: T[]): R
+}

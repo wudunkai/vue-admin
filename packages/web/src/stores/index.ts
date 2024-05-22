@@ -1,4 +1,3 @@
-import { theme as anTdTheme } from 'ant-design-vue/es'
 import type { ThemeType } from '@/layouts/basic-layout/typing'
 import type { AnimationNameValueType } from '@/config/default-setting'
 import defaultSetting from '@/config/default-setting'
@@ -68,6 +67,7 @@ export const useAppStore = defineStore({
           theme: this.layoutSetting.theme === 'light' ? 'dark' : 'light'
         }
       })
+      document.documentElement.setAttribute('data-theme', this.layoutSetting.theme)
     },
     toggleGray(isGray = true) {
       this.$patch({
@@ -109,22 +109,6 @@ export const useAppStore = defineStore({
       else if (key === 'colorWeak') this.toggleWeak(value)
       else if (key === 'colorGray') this.toggleGray(value)
       else if (key in this.layoutSetting) (this.layoutSetting as any)[key] = value
-    }
-  },
-  getters: {
-    themeConfig(state) {
-      document.documentElement.setAttribute('data-theme', state.layoutSetting.theme)
-      // 主题配置
-      return {
-        token: {
-          // colorBgContainer: '#fff',
-          colorPrimary: state.layoutSetting.colorPrimary
-        },
-        algorithm:
-          state.layoutSetting.theme === 'light'
-            ? anTdTheme.defaultAlgorithm
-            : anTdTheme.darkAlgorithm
-      }
     }
   },
   persist: {
