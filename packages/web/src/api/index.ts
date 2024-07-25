@@ -9,11 +9,6 @@ export const userAlova = createAlova({
   statesHook: VueHook,
   requestAdapter: GlobalFetch(),
   timeout: 2 * 60 * 1000,
-  beforeRequest: (method) => {
-    method.config.headers = {
-      'Content-Type': 'application/json;charset=UTF-8'
-    }
-  },
   responded: (response) => {
     if (response.status === 500) {
       const error: any = new Error(response.statusText)

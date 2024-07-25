@@ -27,7 +27,6 @@ export default {
   'pages.login.phoneLogin.getVerificationCode': '获取验证码',
   'pages.getCaptchaSecondText': '秒后重新获取',
   'pages.login.rememberMe': '自动登录',
-  'pages.login.forgotPassword': '忘记密码 ?',
   'pages.login.submit': '登录',
   'pages.login.return': '返回'
 }

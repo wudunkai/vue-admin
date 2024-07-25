@@ -17,7 +17,6 @@ export default {
   'app.setting.navigationMode': '导航模式',
   'app.setting.content-width.keepAlive': '缓存功能',
   'app.setting.content-width.accordionMode': '菜单手风琴模式',
-  'app.setting.content-width.leftCollapsed': '侧边菜单折叠左侧',
 
   'app.setting.otherSettings': '其他模式',
   'app.setting.colorWeak': '色弱模式',

@@ -6,6 +6,8 @@ const value1 = ref<string>('')
 watch(value1, () => {
   console.log(value1.value)
 })
+import { updateToken } from '@/api/login'
+updateToken()
 </script>
 
 <template>

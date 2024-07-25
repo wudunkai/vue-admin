@@ -51,13 +51,13 @@ const isMax = ref(true)
     </div>
     <div class="header-content">
       <div class="header-right">
-        <icon v-if="!app.layoutSetting.leftCollapsed" class="icon-btn" @click="app.toggleCollapsed">
+        <icon class="icon-btn" @click="app.toggleCollapsed">
           <template #component>
             <MenuUnfoldOutlined class="icon" v-if="app.layoutSetting.collapsed" />
             <MenuFoldOutlined class="icon" v-else />
           </template>
         </icon>
-        <Breadcrumb :style="`margin-left:${app.layoutSetting.leftCollapsed}rem`" />
+        <Breadcrumb />
       </div>
     </div>
   </a-layout-header>

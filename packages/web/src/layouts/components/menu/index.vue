@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import SubMenu from './sub-menu.vue'
 import { isUrl } from '@/utils/methods'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue'
+import { SettingOutlined } from '@ant-design/icons-vue'
 const app = useAppStore()
 const user = useUserStore()
 const router = useRouter()
@@ -60,20 +60,19 @@ const handleSelectedKeys = (val: string[]) => {
         </template>
       </a-menu>
     </Scrollbar>
-    <a-menu
-      v-if="layoutSetting.leftCollapsed"
-      class="ant-sider-collapsed-button"
-      mode="inline"
-      theme="dark"
-      :selectable="false"
-      @click="app.toggleCollapsed"
-    >
-      <a-menu-item>
-        <template #icon>
-          <MenuUnfoldOutlined v-if="layoutSetting.collapsed" />
-          <MenuFoldOutlined v-else />
+    <a-menu class="ant-sider-collapsed-button" mode="inline" theme="dark" :selectable="false">
+      <a-popover title="Title" placement="rightBottom">
+        <template #content>
+          <p>Content</p>
+          <p>Content</p>
         </template>
-      </a-menu-item>
+        <a-menu-item>
+          <template #icon>
+            <SettingOutlined />
+          </template>
+          设置
+        </a-menu-item>
+      </a-popover>
     </a-menu>
   </a-layout-sider>
 </template>

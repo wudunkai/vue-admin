@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Scrollbar, ScrollbarType } from './components/Scrollbar'
+import type { Scrollbar, ScrollbarType } from './components/Scrollbar'
 const scrollbarRef = ref<ScrollbarType>()
 /**
  * Scroll to the specified position

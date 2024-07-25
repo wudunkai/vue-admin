@@ -3,7 +3,6 @@ import type { CheckedType } from '../../basic-layout/typing'
 const props = defineProps<{
   keepAlive?: boolean
   accordionMode?: boolean
-  leftCollapsed?: boolean
   t?: (key: string, ...args: any[]) => string
 }>()
 
@@ -18,12 +17,6 @@ const list = computed(() => [
   {
     title: '菜单手风琴模式',
     key: 'accordionMode',
-    disabled: false,
-    disabledReason: ''
-  },
-  {
-    title: '侧边菜单折叠左侧',
-    key: 'leftCollapsed',
     disabled: false,
     disabledReason: ''
   }

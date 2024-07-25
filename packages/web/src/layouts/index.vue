@@ -26,7 +26,6 @@ const { t } = useI18nLocale()
       :color-weak="layoutSetting.colorWeak"
       :color-gray="layoutSetting.colorGray"
       :keep-alive="layoutSetting.keepAlive"
-      :left-collapsed="layoutSetting.leftCollapsed"
       :accordion-mode="layoutSetting.accordionMode"
       :animation-name="layoutSetting.animationName"
       :animation-name-list="animationNameList"

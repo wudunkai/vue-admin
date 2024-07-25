@@ -1,19 +1,37 @@
 import * as crypto from 'crypto';
 import axios from 'axios';
+import { JwtService } from '@nestjs/jwt/dist';
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { UserItem, userLoginData } from 'src/core/types/user';
-import { UserLoginDto } from './dto/userLogin.dto';
+import { ConfigService } from '@nestjs/config';
+import { ResultData } from '../../common/utils/result';
+import { userLoginData } from '../../common/types/user';
+
+import { LoginUserDto } from './dto/login-user.dto';
+import { CreateTokenDto } from './dto/create-token.dto';
 @Injectable()
 export class UserService {
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly config: ConfigService,
+  ) {}
   private userList = [
     {
-      id: 1,
-      name: '张三',
+      userId: '1',
+      name: '管理员',
       age: 18,
       gender: 1,
+      username: 'admin',
+      password: '123456',
+      phone: 13888888888,
     },
   ]; // 没有数据库，暂时通过该方式定义数据
-  getUserLogin(userData: UserLoginDto) {
+  async getUserLogin(userData: LoginUserDto): Promise<ResultData> {
+    const { lot_number, captcha_output, pass_token, gen_time, username } =
+      userData;
+    const user = await this.getUserDetail(username);
+    if (!user) {
+      return ResultData.fail(-1, '帐号或密码错误');
+    }
     // geetest 公钥
     // geetest public key
     const CAPTCHA_ID = '647f5ed2ed8acb4be36784e01556bb71';
@@ -35,7 +53,6 @@ export class UserService {
         .digest('hex');
       return hash;
     };
-    const { lot_number, captcha_output, pass_token, gen_time } = userData;
     const sign_token = hmac_sha256_encode(lot_number, CAPTCHA_KEY);
     // 向极验转发前端数据 + “sign_token” 签名
     // send web parameter and “sign_token” to geetest server
@@ -57,7 +74,6 @@ export class UserService {
       if (result.status != 200) {
         // geetest服务响应异常
         // geetest service response exception
-        console.log('Geetest Response Error, StatusCode:' + result.status);
         throw new BadRequestException('Geetest Response Error');
       }
       return result.data;
@@ -66,7 +82,8 @@ export class UserService {
       post_form(data, API_URL)
         .then((result) => {
           if (result['result'] == 'success') {
-            resolve(this.getUserDetail('1'));
+            const data = this.genToken({ id: user.userId });
+            resolve(ResultData.ok(data));
           } else {
             throw new BadRequestException('validate fail:' + result['reason']);
           }
@@ -78,36 +95,42 @@ export class UserService {
         });
     });
   }
-  getUserPhoneCode() {
-    const randomNumber = Math.floor(Math.random() * 900000) + 100000;
-    return randomNumber;
+  async getUserDetail(username: string) {
+    return this.userList.find((user) => user.username === username);
   }
-  getUserList(): UserItem[] {
-    return this.userList;
+  async findOneById(id: string) {
+    return this.userList.find((user) => user.userId === id);
   }
-  addUser(userData: UserItem): UserItem[] {
-    this.userList.push(userData);
-    return this.userList;
-  }
-  getUserDetail(targetUserId: string): UserItem {
-    const targetUserArray = this.userList.filter(
-      (item) => item.id === parseInt(targetUserId),
-    );
-    return targetUserArray[0] || {};
-  }
-  updateUser(userData: UserItem): UserItem[] {
-    this.userList = this.userList.map((item) => {
-      if (item.id === userData.id) {
-        return userData;
-      }
-      return item;
+  /**
+   * 生成 token 与 刷新 token
+   * @param payload
+   * @returns
+   */
+  genToken(payload: { id: string }): CreateTokenDto {
+    const accessToken = `Bearer ${this.jwtService.sign(payload)}`;
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: this.config.get('jwt.refreshExpiresIn'),
     });
-    return this.userList;
+    return { accessToken, refreshToken };
   }
-  deleteUser(deleteId): UserItem[] {
-    this.userList = this.userList.filter(
-      (item) => item.id !== parseInt(deleteId),
-    );
-    return this.userList;
+  /**
+   * 生成刷新 token
+   */
+  refreshToken(id: string): string {
+    return this.jwtService.sign({ id });
+  }
+  /** 校验 token */
+  verifyToken(token: string): string {
+    try {
+      if (!token) return null;
+      const id = this.jwtService.verify(token.replace('Bearer ', ''));
+      return id;
+    } catch (error) {
+      return null;
+    }
+  }
+  async updateToken(userId: string): Promise<ResultData> {
+    const data = this.genToken({ id: userId });
+    return ResultData.ok(data);
   }
 }

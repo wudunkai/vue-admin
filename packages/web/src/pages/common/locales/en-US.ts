@@ -28,7 +28,6 @@ export default {
   'pages.login.phoneLogin.getVerificationCode': 'Get Code',
   'pages.getCaptchaSecondText': 'sec(s)',
   'pages.login.rememberMe': 'Remember me',
-  'pages.login.forgotPassword': 'Forgot Password ?',
   'pages.login.submit': 'Login',
   'pages.login.return': 'Return'
 }

@@ -37,7 +37,7 @@ export function renderThumbStyle({ move, size, bar }) {
 }
 
 function extend<T, K>(to: T, _from: K): T & K {
-  return Object.assign(to, _from)
+  return Object.assign({}, to, _from) as T & K
 }
 
 export function toObject<T>(arr: Array<T>) {

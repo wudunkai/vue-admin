@@ -14,7 +14,6 @@ const props = withDefaults(
     // contentWidth?: ContentWidth
     keepAlive?: boolean
     accordionMode?: boolean
-    leftCollapsed?: boolean
     colorWeak?: boolean
     colorGray?: boolean
     locale?: string
@@ -75,7 +74,6 @@ function changeSettingLayout(key: string, value: any) {
             :t="t"
             :keep-alive="keepAlive"
             :accordion-mode="accordionMode"
-            :left-collapsed="leftCollapsed"
             @change-setting="changeSettingLayout"
           />
         </Body>

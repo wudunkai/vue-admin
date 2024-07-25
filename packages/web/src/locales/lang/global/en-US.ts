@@ -17,7 +17,6 @@ export default {
   'app.setting.navigationMode': 'Navigation Mode',
   'app.setting.content-width.keepAlive': 'KeepAlive',
   'app.setting.content-width.accordionMode': 'Menu Accordion Mode',
-  'app.setting.content-width.leftCollapsed': 'sideMenu Left',
 
   'app.setting.otherSettings': 'Other Settings',
   'app.setting.colorWeak': 'Weak Mode',

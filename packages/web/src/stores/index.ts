@@ -27,7 +27,6 @@ export interface LayoutSetting {
   locale: string
   keepAlive?: boolean
   accordionMode?: boolean
-  leftCollapsed?: boolean
   animationName?: AnimationNameValueType
 }
 /**

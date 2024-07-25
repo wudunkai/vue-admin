@@ -7,7 +7,6 @@ import type { FormInstance } from 'ant-design-vue'
 const app = useAppStore()
 const { layoutSetting } = storeToRefs(app)
 const formPhoneRef = ref<FormInstance>()
-const formForgotRef = ref<FormInstance>()
 const user = useUserStore()
 const router = useRouter()
 const { locale, setLocale, t } = useI18nLocale()
@@ -73,46 +72,6 @@ const formState: any = reactive({
       phone: '13888888888',
       captcha: '123456'
     }
-  },
-  formForgotData: {
-    formLabel: [
-      {
-        field: 'username',
-        rules: [{ validator, messages: 'pages.login.username.required' }],
-        prefix: UserOutlined,
-        placeholder: 'pages.login.username.placeholder',
-        show: true,
-        autofocus: true,
-        type: 'text'
-      },
-      {
-        field: 'phone',
-        rules: [{ validator: validatorMobile, trigger: 'change' }],
-        prefix: PhoneOutlined,
-        placeholder: 'pages.login.phoneNumber.placeholder',
-        show: true,
-        autofocus: true,
-        type: 'text'
-      },
-      {
-        field: 'captcha',
-        rules: [{ validator, messages: 'pages.login.captcha.required' }],
-        prefix: LockOutlined,
-        placeholder: 'pages.login.captcha.placeholder',
-        show: true,
-        suffix: {
-          type: 'captcha',
-          size: 'small',
-          loading: false,
-          countdown: ''
-        }
-      }
-    ],
-    data: {
-      username: 'admin',
-      phone: '13999999999',
-      captcha: '123456'
-    }
   }
 })
 const loading = ref<boolean>(false)
@@ -126,9 +85,6 @@ const sendCaptcha = () => {
     case 'formPhoneData':
       formRef = formPhoneRef.value
       break
-    case 'formForgotData':
-      formRef = formForgotRef.value
-      break
   }
   formRef
     .validateFields(['phone'], (err: any) => {
@@ -137,7 +93,7 @@ const sendCaptcha = () => {
     .then(() => {
       const {
         // 发送状态
-        loading: sending,
+        loading,
         countdown,
         send: sendCaptchas
       } = getUserPhoneCaptcha({ type: loginType })
@@ -164,11 +120,14 @@ window.initGeetest4(
     })
       .onSuccess(() => {
         loading.value = true
+        const { username, password } = formState[formState.loginType].data
         const result = gt.getValidate()
+        Object.assign(result, { username, password })
         const { data, onSuccess }: any = useLogin(result)
         onSuccess(() => {
           if (data.value.code == 200) {
-            user.token = 'success'
+            user.accessToken = data.value.data.accessToken
+            user.refreshToken = data.value.data.refreshToken
             router.push('/')
           }
           loading.value = false
@@ -242,9 +201,6 @@ window.initGeetest4(
                     t('pages.login.rememberMe')
                   }}</a-checkbox>
                 </a-form-item>
-                <a-button type="link" @click="changeLogin('formForgotData')">
-                  {{ t('pages.login.forgotPassword') }}</a-button
-                >
               </div>
             </a-form-item>
             <a-form-item>
@@ -288,35 +244,6 @@ window.initGeetest4(
                 :loading="loading"
                 html-type="submit"
                 class="login-form-button"
-                id="captcha"
-              >
-                {{ t('pages.login.submit') }}
-              </a-button>
-            </a-form-item>
-            <a-form-item>
-              <a-button class="return-form-button" @click="formState.loginType = 'formPassData'">
-                {{ t('pages.login.return') }}
-              </a-button></a-form-item
-            >
-          </a-form>
-          <a-form
-            :model="formState.formForgotData.data"
-            class="forgot-form -enter-x -enter-right-x"
-            size="large"
-            @finish="onFinish"
-            ref="formForgotRef"
-            v-else-if="formState.loginType == 'formForgotData'"
-          >
-            <a-form-item>
-              <div class="forgot-title">{{ t('pages.reset.password.tab') }}</div>
-            </a-form-item>
-            <FormItems v-bind="formState.formForgotData" @send-captcha="sendCaptcha" />
-            <a-form-item>
-              <a-button
-                type="primary"
-                :loading="loading"
-                html-type="submit"
-                class="forgot-form-button"
                 id="captcha"
               >
                 {{ t('pages.login.submit') }}

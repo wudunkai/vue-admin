@@ -1,12 +1,15 @@
-import { Controller, Get, Post, Param, Body, Res } from '@nestjs/common';
+import { Controller, Post, Body, Req } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags, ApiOperation } from '@nestjs/swagger';
+
 import { UserService } from './user.service';
-import { UserLoginDto } from './dto/userLogin.dto';
-import { GetUserDetailDto } from './dto/getUserDetail.dto';
-import { AddUserDto } from './dto/addUser.dto';
-import { SUCCESS_RES, ERROR_RES } from 'src/core/utils/resWrapper.util';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { UserItem } from 'src/core/types/user';
-import { Response } from 'express';
+import { ResultData } from '../../common/utils/result';
+
+import { AllowAnon } from '../../common/decorators/allow-anon.decorator';
+import { ApiResult } from '../../common/decorators/api-result.decorator';
+
+import { LoginUserDto } from './dto/login-user.dto';
+import { CreateTokenDto } from './dto/create-token.dto';
+
 @Controller('/user')
 @ApiTags('用户相关接口')
 export class UserController {
@@ -15,113 +18,17 @@ export class UserController {
   @ApiOperation({
     summary: '用户登录',
   })
-  @ApiResponse({
-    status: 200,
-    description: '成功返回200',
-    schema: {
-      type: 'object',
-      example: {
-        data: {
-          id: 1,
-          name: '张三',
-          age: 18,
-          gender: 1,
-        },
-        msg: 'success',
-        code: 200,
-      },
-    },
-  })
-  async userLogin(
-    @Body() userData: UserLoginDto,
-    @Res() res: Response,
-  ): Promise<void> {
-    const targetUser = await this.userService.getUserLogin(userData);
-    if (targetUser) {
-      res.status(200).json(SUCCESS_RES(targetUser));
-    } else {
-      res.status(404).json(ERROR_RES('User was not found'));
-    }
-  }
-  @Post('getUserPhoneCode')
-  @ApiOperation({
-    summary: '发送短信',
-  })
-  @ApiResponse({
-    status: 200,
-    description: '成功返回200',
-    schema: {
-      type: 'object',
-      example: {
-        data: 123456,
-        msg: 'success',
-        code: 200,
-      },
-    },
-  })
-  getUserPhoneCode(@Body() phoneCodeData, @Res() res: Response) {
-    const targetUser = this.userService.getUserPhoneCode();
-    if (targetUser) {
-      res.status(200).json(SUCCESS_RES(targetUser));
-    } else {
-      res.status(404).json(ERROR_RES('User was not found'));
-    }
+  @ApiResult(CreateTokenDto)
+  @AllowAnon()
+  async userLogin(@Body() userData: LoginUserDto): Promise<ResultData> {
+    return await this.userService.getUserLogin(userData);
   }
 
-  @Get('getUserDetail/:id')
-  @ApiOperation({
-    summary: '获取用户详情',
-  })
-  @ApiResponse({
-    status: 200,
-    description: '成功返回200',
-    schema: {
-      type: 'object',
-      example: {
-        data: {
-          id: 1,
-          name: '张三',
-          age: 18,
-          gender: 1,
-        },
-        msg: 'success',
-        code: 200,
-      },
-    },
-  })
-  getUserDetail(
-    @Param('id', GetUserDetailDto) id: string,
-    @Res() res: Response,
-  ): void {
-    const targetUser = this.userService.getUserDetail(id);
-    if (targetUser) {
-      res.status(200).json(SUCCESS_RES(targetUser));
-    } else {
-      res.status(404).json(ERROR_RES('User was not found'));
-    }
-  }
-
-  @Post('addUser')
-  @ApiOperation({
-    summary: '获取用户列表',
-    // description: '获取所有的用户列表',
-  })
-  @ApiResponse({
-    status: 200,
-    description: '成功返回200',
-    schema: {
-      type: 'array',
-      example: [
-        {
-          id: 1,
-          name: '张三',
-          age: 18,
-          gender: 1,
-        },
-      ],
-    },
-  })
-  addUser(@Body() userData: AddUserDto): UserItem[] {
-    return this.userService.addUser(userData);
+  @Post('updateToken')
+  @ApiOperation({ summary: '刷新token' })
+  @ApiResult(CreateTokenDto)
+  @ApiBearerAuth()
+  async updateToken(@Req() req): Promise<ResultData> {
+    return await this.userService.updateToken(req.user.id);
   }
 }

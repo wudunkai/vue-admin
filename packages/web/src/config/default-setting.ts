@@ -24,7 +24,6 @@ export default {
   locale: lsLocaleState.value,
   keepAlive: true,
   accordionMode: false,
-  leftCollapsed: false,
   // headerHeight: 48,
   copyright: 'Antdv Pro Team 2023',
   animationName: 'slide-fadein-right'

@@ -11,6 +11,17 @@ export const useLogin = (data: LoginBody) => {
     })
   )
 }
+export const updateToken = () => {
+  const user = useUserStore()
+  return useRequest(
+    userAlova.Post('/user/updateToken', '', {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: 'Bearer ' + user.refreshToken
+      }
+    })
+  )
+}
 export const getUserPhoneCaptcha = (data: UserPhoneCaptchaBody) => {
   return useCaptcha(() =>
     userAlova.Post('/user/getUserPhoneCaptcha', data, {

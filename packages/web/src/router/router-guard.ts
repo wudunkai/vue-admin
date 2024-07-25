@@ -11,8 +11,8 @@ router.beforeEach(async (to, _, next) => {
   setRouteEmitter(to)
   // 获取
   const user = useUserStore()
-  if (!user.token) {
-    //  如果token不存在就跳转到登录页面
+  if (!user.accessToken) {
+    //  如果accessToken不存在就跳转到登录页面
     if (!allowList.includes(to.path) && !to.path.startsWith('/redirect')) {
       next({
         path: loginPath,
