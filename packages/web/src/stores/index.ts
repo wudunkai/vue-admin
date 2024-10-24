@@ -60,13 +60,42 @@ export const useAppStore = defineStore({
         }
       })
     },
-    async toggleDarkMode() {
-      this.$patch({
-        layoutSetting: {
-          theme: this.layoutSetting.theme === 'light' ? 'dark' : 'light'
-        }
+    async toggleDarkMode($event: { clientX: any; clientY: any }) {
+      const isDark = this.layoutSetting.theme === 'light'
+      // 在 transition.ready 的 Promise 完成后，执行自定义动画
+      // 获取到 transition API 实例
+      const transition = document.startViewTransition(() => {
+        this.$patch({
+          layoutSetting: {
+            theme: isDark ? 'dark' : 'light'
+          }
+        })
+        document.documentElement.setAttribute('data-theme', this.layoutSetting.theme)
       })
-      document.documentElement.setAttribute('data-theme', this.layoutSetting.theme)
+
+      transition.ready.then(() => {
+        // 由于我们要从鼠标点击的位置开始做动画，所以我们需要先获取到鼠标的位置
+        const { clientX, clientY } = $event
+        // 计算半径，以鼠标点击的位置为圆心，到四个角的距离中最大的那个作为半径
+        const radius = Math.hypot(
+          Math.max(clientX, innerWidth - clientX),
+          Math.max(clientY, innerHeight - clientY)
+        )
+        const clipPath = [
+          `circle(0% at ${clientX}px ${clientY}px)`,
+          `circle(${radius}px at ${clientX}px ${clientY}px)`
+        ]
+        // 自定义动画
+        document.documentElement.animate(
+          {
+            clipPath: isDark ? [...clipPath].reverse() : clipPath
+          },
+          {
+            duration: 500,
+            pseudoElement: isDark ? '::view-transition-old(root)' : '::view-transition-new(root)'
+          }
+        )
+      })
     },
     toggleGray(isGray = true) {
       this.$patch({

@@ -105,3 +105,28 @@ html.color-gray {
     transform: translateX(0);
   }
 }
+
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  height: auto;
+  width: 100vw;
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme=dark]::view-transition-old(root) {
+  z-index: 2147483646;
+}
+
+html[data-theme=dark]::view-transition-new(root) {
+  z-index: 1;
+}
+
+html[data-theme=light] ::view-transition-old(root) {
+  z-index: 1;
+}
+
+html[data-theme=light] ::view-transition-new(root) {
+  z-index: 2147483646;
+}
