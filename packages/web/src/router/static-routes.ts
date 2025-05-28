@@ -5,7 +5,7 @@ const Layout = () => import('@/layouts/index.vue')
 export default [
   {
     path: '/login',
-    component: () => import('@/pages/common/login.vue'),
+    component: () => import('@/pages/common/login/index.vue'),
     meta: {
       title: '登录'
     }

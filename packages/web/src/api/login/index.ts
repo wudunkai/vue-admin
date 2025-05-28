@@ -2,7 +2,7 @@ import { userAlova } from '@/api/index'
 import { useRequest } from 'alova'
 import { useCaptcha } from '@alova/scene-vue'
 import type { LoginBody, UserPhoneCaptchaBody } from './type'
-export const useLogin = (data: LoginBody) => {
+export const useLoginApi = (data: LoginBody) => {
   return useRequest(
     userAlova.Post('/user/userLogin', data, {
       headers: {

@@ -1,143 +1,20 @@
 <script lang="ts" setup>
 import Icon from '@ant-design/icons-vue'
-import { useLogin, getUserPhoneCaptcha } from '@/api/login'
-import { validatorMobile, validator } from '@/utils/validator'
-import { UserOutlined, LockOutlined, PhoneOutlined } from '@ant-design/icons-vue'
-import type { FormInstance } from 'ant-design-vue'
-const app = useAppStore()
-const { layoutSetting } = storeToRefs(app)
-const formPhoneRef = ref<FormInstance>()
-const user = useUserStore()
-const router = useRouter()
-const { locale, setLocale, t } = useI18nLocale()
-function handleClick({ key }: any) {
-  setLocale(key)
-}
-const { VITE_GLOB_WEB_NAME, VITE_CAPTCHA_ID } = import.meta.env
-const formState: any = reactive({
-  loginType: 'formPassData',
-  type: [{ name: 'pages.login.phoneLogin.tab', type: 'formPhoneData' }],
-  formPassData: {
-    formLabel: [
-      {
-        field: 'username',
-        rules: [{ validator, messages: 'pages.login.username.required' }],
-        prefix: UserOutlined,
-        placeholder: 'pages.login.username.placeholder',
-        show: true,
-        autofocus: true,
-        type: 'text'
-      },
-      {
-        field: 'password',
-        rules: [{ validator, messages: 'pages.login.password.required' }],
-        prefix: LockOutlined,
-        placeholder: 'pages.login.password.placeholder',
-        show: true,
-        type: 'password'
-      }
-    ],
-    data: {
-      username: 'admin',
-      password: '123456',
-      remember: true
-    }
-  },
-  formPhoneData: {
-    formLabel: [
-      {
-        field: 'phone',
-        rules: [{ validator: validatorMobile, trigger: 'change' }],
-        prefix: PhoneOutlined,
-        placeholder: 'pages.login.phoneNumber.placeholder',
-        show: true,
-        autofocus: true,
-        type: 'text'
-      },
-      {
-        field: 'captcha',
-        rules: [{ validator, messages: 'pages.login.captcha.required' }],
-        prefix: LockOutlined,
-        placeholder: 'pages.login.captcha.placeholder',
-        show: true,
-        suffix: {
-          type: 'captcha',
-          size: 'small',
-          loading: false,
-          countdown: ''
-        }
-      }
-    ],
-    data: {
-      phone: '13888888888',
-      captcha: '123456'
-    }
-  }
-})
-const loading = ref<boolean>(false)
-const changeLogin = (type: string) => {
-  formState.loginType = type
-}
-const sendCaptcha = () => {
-  const loginType = formState.loginType
-  let formRef: any
-  switch (loginType) {
-    case 'formPhoneData':
-      formRef = formPhoneRef.value
-      break
-  }
-  formRef
-    .validateFields(['phone'], (err: any) => {
-      if (err) return
-    })
-    .then(() => {
-      const {
-        // 发送状态
-        loading,
-        countdown,
-        send: sendCaptchas
-      } = getUserPhoneCaptcha({ type: loginType })
-      sendCaptchas()
-      const captcha = formState[loginType].formLabel.find(
-        (item: { field: string }) => item.field == 'captcha'
-      )
-      captcha.suffix.loading = loading
-      captcha.suffix.countdown = countdown
-    })
-}
-const onFinish = async () => {
-  window.gt.showBox()
-}
-window.initGeetest4(
-  {
-    captchaId: VITE_CAPTCHA_ID,
-    product: 'bind'
-  },
-  (gt: any) => {
-    gt.appendTo('#captcha')
-    gt.onReady(() => {
-      window.gt = gt
-    })
-      .onSuccess(() => {
-        loading.value = true
-        const { username, password } = formState[formState.loginType].data
-        const result = gt.getValidate()
-        Object.assign(result, { username, password })
-        const { data, onSuccess }: any = useLogin(result)
-        onSuccess(() => {
-          if (data.value.code == 200) {
-            user.accessToken = data.value.data.accessToken
-            user.refreshToken = data.value.data.refreshToken
-            router.push('/')
-          }
-          loading.value = false
-        })
-      })
-      .onError(() => {
-        window.gt.reset()
-      })
-  }
-)
+const { locale, t } = useI18nLocale()
+const { VITE_GLOB_WEB_NAME } = import.meta.env
+import { useLogin } from './index'
+
+const {
+  loading,
+  formPhoneRef,
+  layoutSetting,
+  formState,
+  handleClick,
+  changeLogin,
+  sendCaptcha,
+  onFinish
+} = useLogin()
+
 </script>
 
 <template>
@@ -175,7 +52,7 @@ window.initGeetest4(
           <div class="app-logo-title">{{ VITE_GLOB_WEB_NAME }}</div>
         </div>
         <div class="my-auto -enter-x -enter-left-x">
-          <img alt="Admin" src="../../assets/svg/login-box-bg.svg" />
+          <img alt="Admin" src="@/assets/svg/login-box-bg.svg" />
           <div class="text">
             {{ t('pages.layouts.userLayout.title') }}
           </div>
@@ -348,7 +225,7 @@ window.initGeetest4(
     width: 100%;
     height: 100%;
     margin-left: -48%;
-    background-image: url('../../assets/svg/login-bg.svg');
+    background-image: url('@/assets/svg/login-bg.svg');
     background-repeat: no-repeat;
     background-position: 100%;
     background-size: auto 100%;
@@ -356,7 +233,7 @@ window.initGeetest4(
 }
 html[data-theme='dark'] .w-login {
   &:before {
-    background-image: url('../../assets/svg/login-bg-dark.svg');
+    background-image: url('@/assets/svg/login-bg-dark.svg');
   }
 }
 </style>

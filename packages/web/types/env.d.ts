@@ -10,6 +10,10 @@ interface Window {
   initGeetest4?: any
 }
 
+interface Document {
+  startViewTransition?: any
+}
+
 type Recordable<T> = Record<string, T>
 
 declare interface Fn<T = any, R = T> {
